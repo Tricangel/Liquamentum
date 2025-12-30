@@ -1,0 +1,20 @@
+{
+  "values": [
+    "#minecraft:stone_crafting_materials",
+    "#minecraft:coal_ores",
+    "#minecraft:copper_ores",
+    "#minecraft:diamond_ores",
+    "#minecraft:gold_ores",
+    "#minecraft:emerald_ores",
+    "#minecraft:iron_ores",
+    "#minecraft:lapis_ores",
+    "#minecraft:redstone_ores",
+    "minecraft:andesite",
+    "minecraft:granite",
+    "minecraft:diorite",
+    "minecraft:deepslate",
+    "minecraft:stone",
+    "minecraft:coal",
+    "minecraft:charcoal"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "values": [
+    "#liquamentum:rock_type",
+    "#liquamentum:ore_type",
+    "#liquamentum:nature_type",
+    "#liquamentum:fire_type",
+    "#liquamentum:water_type",
+    "#liquamentum:undead_type",
+    "#liquamentum:flesh_type",
+    "#liquamentum:sky_type",
+    "#liquamentum:end_type",
+    "#liquamentum:boss_type"
+  ]
+}

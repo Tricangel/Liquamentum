@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "liquamentum",
+	"version": "${version}",
+	"name": "liquamentum",
+	"description": "potion potion potion potion",
+	"authors": [
+		"Bee :3"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/liquamentum/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"bee.potions.Liquamentum"
+		],
+		"fabric-datagen": [
+			"bee.potions.LiquamentumDataGenerator"
+		]
+	},
+	"mixins": [
+		"potioning.mixins.json"
+	],
+	"accesswidener": "liquamentum.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

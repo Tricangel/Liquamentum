@@ -1,0 +1,12 @@
+// 1.21.11	-999999999-01-01T00:00:00	liquamentum/Tags for minecraft:item
+540489e371218f31ec136e017013de55b7347a63 data/liquamentum/tags/item/boss_type.json
+706e25e6b86348d288cdde8c2f6e74c63808eda1 data/liquamentum/tags/item/brewable.json
+53f642d0b8fb8a956696e01c6aeead53235d1757 data/liquamentum/tags/item/end_type.json
+c0e4a89e4eb6fb4a9438410e8676bf8d85a5b885 data/liquamentum/tags/item/fire_type.json
+4d803d9d5cbc07072ada3b2cf938d8519a50195d data/liquamentum/tags/item/flesh_type.json
+ce2f37648a3fad6a813d84ac218cccd77a9590cd data/liquamentum/tags/item/nature_type.json
+c887eaa175a4403e2fefdc283806a98a2223da55 data/liquamentum/tags/item/ore_type.json
+8d4b0bc141ae895cfaa2dff182adb6083d592daf data/liquamentum/tags/item/rock_type.json
+36bd21e03841f18844e514db881e9045860ae00b data/liquamentum/tags/item/sky_type.json
+5df33eaf521dae02389cc1ab5e8bb453e04050e5 data/liquamentum/tags/item/undead_type.json
+ebf979778284c5ef1b8f3889841f467428e43d09 data/liquamentum/tags/item/water_type.json

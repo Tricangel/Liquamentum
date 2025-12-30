@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "bee.potions.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BrewingStandBlockMixin",
+    "EntityMixin",
+    "InputMixin",
+    "LivingEntityMixin",
+    "MobEffectInstanceMixin",
+    "PlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  },
+  "client": [
+    "client.GameRendererMixin",
+    "client.GuiMixin",
+    "client.MouseMixin"
+  ]
+}
