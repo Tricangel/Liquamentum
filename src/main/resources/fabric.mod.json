@@ -23,9 +23,8 @@
 		]
 	},
 	"mixins": [
-		"potioning.mixins.json"
+		"liquamentum.mixins.json"
 	],
-	"accesswidener": "liquamentum.accesswidener",
 	"depends": {
 		"fabricloader": ">=0.18.4",
 		"minecraft": "~1.21.11",

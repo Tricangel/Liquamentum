@@ -5,6 +5,7 @@ import bee.potions.ingredienttype.IngredientTypes;
 import bee.potions.ingredienttype.OreEffects;
 import bee.potions.ingredienttype.RockEffects;
 import bee.potions.registry.LiquamentumBlockEntities;
+import bee.potions.registry.LiquamentumTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -39,42 +40,36 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         this.ingredients = NonNullList.withSize(4, ItemStack.EMPTY);
     }
 
-    public NonNullList<ItemStack> getIngredients() {
-        return ingredients;
-    }
 
-    public List<Holder<MobEffect>> drinkFromCauldron(Player player, Level level) {
-        List<Holder<MobEffect>> effectsToApply = new ArrayList<>();
-        if (!level.isClientSide()) {
-            for (ItemStack stack : ingredients) {
-                if (!stack.isEmpty()) {
-                    effectsToApply.add(getEffect(stack));
-                }
-            }
 
-            return effectsToApply;
-        }
-        return effectsToApply;
-    }
 
-    public void addIngredient(ItemStack stack, Player player) {
-        if (!stack.isEmpty()) {
-            for (int i = 0; i < ingredients.size(); i++) {
-                if (ingredients.get(i).isEmpty()) {
-                    ingredients.set(i, stack.consumeAndReturn(1, player));
-                    setChanged();
-                    break;
-                }
-            }
-        }
-    }
+
+
+
+
+
+
+
+
+
+
+
 
     public static IngredientTypes getIngredientType(ItemStack stack) {
-        if (stack.is(ItemTags.STONE_CRAFTING_MATERIALS)) return IngredientTypes.ROCK;
-        else return IngredientTypes.END;
+        if (stack.is(LiquamentumTags.ROCK_TYPE)) return IngredientTypes.ROCK;
+        if (stack.is(LiquamentumTags.ORE_TYPE)) return IngredientTypes.ORE;
+        if (stack.is(LiquamentumTags.NATURE_TYPE)) return IngredientTypes.NATURE;
+        if (stack.is(LiquamentumTags.FIRE_TYPE)) return IngredientTypes.FIRE;
+        if (stack.is(LiquamentumTags.WATER_TYPE)) return IngredientTypes.WATER;
+        if (stack.is(LiquamentumTags.UNDEAD_TYPE)) return IngredientTypes.UNDEAD;
+        if (stack.is(LiquamentumTags.FLESH_TYPE)) return IngredientTypes.FLESH;
+        if (stack.is(LiquamentumTags.SKY_TYPE)) return IngredientTypes.SKY;
+        if (stack.is(LiquamentumTags.END_TYPE)) return IngredientTypes.END;
+        if (stack.is(LiquamentumTags.BOSS_TYPE)) return IngredientTypes.BOSS;
+        else return IngredientTypes.MISC;
     }
 
-    public static Holder<MobEffect> getEffect(ItemStack stack) {
+    public static Holder<MobEffect> getPositiveEffect(ItemStack stack) {
         RockEffects rockEffects = new RockEffects();
         OreEffects oreEffects = new OreEffects();
 
@@ -89,13 +84,32 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                 IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.END, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
-                );
-
-
+        );
 
         return POSITIVE_EFFECT_POOL.get(getIngredientType(stack));
-
     }
+
+    public static Holder<MobEffect> getNegativeEffect(ItemStack stack) {
+        RockEffects rockEffects = new RockEffects();
+        OreEffects oreEffects = new OreEffects();
+
+        Map<IngredientTypes,  Holder<MobEffect>> NEGATIVE_EFFECT_POOL = Map.of(
+                IngredientTypes.ROCK, rockEffects.getPositiveEffect(stack),
+                IngredientTypes.ORE, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.NATURE, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.FIRE, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.WATER, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.UNDEAD, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.FLESH, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.END, oreEffects.getPositiveEffect(stack),
+                IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
+        );
+
+        return NEGATIVE_EFFECT_POOL.get(getIngredientType(stack));
+    }
+
+
 
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {

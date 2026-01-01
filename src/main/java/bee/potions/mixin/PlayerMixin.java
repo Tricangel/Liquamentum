@@ -6,7 +6,9 @@ import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +26,6 @@ public abstract class PlayerMixin {
 			player.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(player.position().x(), player.position().y() - 2, player.position().z()));
 		}
 
-
 	}
 
 	@Inject(at = @At("HEAD"), method = "canEat", cancellable = true)
@@ -35,20 +36,39 @@ public abstract class PlayerMixin {
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "animateHurt", cancellable = true)
-	private void hideDamage(float f, CallbackInfo ci) {
+	@Inject(at = @At("HEAD"), method = "isAffectedByFluids", cancellable = true)
+	private void stopEating(CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.NUMBNESS)) {
+		if (player.hasEffect(LiquamentumEffects.SINK)) {
+			cir.setReturnValue(false);
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "canSprint", cancellable = true)
+	private void noSprintUnderwater(CallbackInfoReturnable<Boolean> cir) {
+		Player player = (Player) (Object) this;
+		if (player.hasEffect(LiquamentumEffects.NOSWIM)) {
+			if (player.isUnderWater()) {
+				cir.setReturnValue(false);
+			}
+		}
+	}
+	@Inject(at = @At("HEAD"), method = "isSwimming", cancellable = true)
+	private void noSwimming(CallbackInfoReturnable<Boolean> cir) {
+		Player player = (Player) (Object) this;
+		if (player.hasEffect(LiquamentumEffects.NOSWIM)) {
+			cir.setReturnValue(false);
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "openTextEdit", cancellable = true)
+	private void noHearDamage(SignBlockEntity signBlockEntity, boolean bl, CallbackInfo ci) {
+		Player player = (Player) (Object) this;
+		if (player.hasEffect(LiquamentumEffects.MUTE)) {
 			ci.cancel();
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "getHurtSound", cancellable = true)
-	private void hideDamage(DamageSource damageSource, CallbackInfoReturnable<SoundEvent> cir) {
-		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.NUMBNESS)) {
-			cir.setReturnValue(SoundEvents.EMPTY);
-		}
-	}
+
 
 }

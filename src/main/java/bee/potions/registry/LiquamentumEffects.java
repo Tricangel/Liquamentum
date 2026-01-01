@@ -33,6 +33,25 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> NUMBNESS =
             register("numbness", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
+    public static final Holder<MobEffect> FEAR =
+            register("fear", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> ROOTED =
+            register("rooted", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> NOSWIM =
+            register("noswim", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> SINK =
+            register("sink", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> WATER_WALKING =
+            register("water_walking", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> LAVA_WALKING =
+            register("lava_walking", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+
+
 
     private static Holder<MobEffect> register(String name, MobEffect effect) {
         Identifier id = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, name);

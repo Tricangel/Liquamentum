@@ -10,5 +10,6 @@ public enum IngredientTypes {
     FLESH,
     SKY,
     END,
-    BOSS
+    BOSS,
+    MISC
 }

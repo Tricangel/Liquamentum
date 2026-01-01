@@ -3,6 +3,7 @@
   "package": "bee.potions.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AnimalMixin",
     "BrewingStandBlockMixin",
     "EntityMixin",
     "InputMixin",
@@ -17,6 +18,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "client.ChatScreenMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
     "client.MouseMixin"
