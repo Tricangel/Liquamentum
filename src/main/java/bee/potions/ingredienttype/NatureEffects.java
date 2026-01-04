@@ -1,14 +1,18 @@
 package bee.potions.ingredienttype;
 
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class NatureEffects {
 
@@ -59,10 +63,12 @@ public class NatureEffects {
             Map.entry(Items.POPPY, natureNegativeEffects.get(19))
     );
 
-    public Holder<MobEffect> getPositiveEffect(ItemStack stack) {
+    public Holder<MobEffect> getPositiveEffect(ItemStack stack, ServerLevel level) {
+        Collections.shuffle(naturePositiveEffects, new Random(level.getSeed()));
         return positiveEffects.get(stack.getItem());
     }
-    public Holder<MobEffect> getNegativeEffect(ItemStack stack) {
+    public Holder<MobEffect> getNegativeEffect(ItemStack stack, ServerLevel level) {
+        Collections.shuffle(natureNegativeEffects, new Random(level.getSeed()));
         return negativeEffects.get(stack.getItem());
     }
 

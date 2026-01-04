@@ -28,10 +28,18 @@ public abstract class GuiMixin {
 
     @Shadow @Final private Minecraft minecraft;
 
+    @Shadow
+    protected abstract void renderTextureOverlay(GuiGraphics guiGraphics, Identifier identifier, float f);
+
     @Inject(at = @At("HEAD"), method = "renderHearts", cancellable = true)
     private void cancelRendering(GuiGraphics guiGraphics, Player player, int i, int j, int k, int l, float f, int m, int n, int o, boolean bl, CallbackInfo ci) {
         if (player.hasEffect(LiquamentumEffects.NUMBNESS)) {
             int x = i;
+            for (int p = 0; p < player.getMaxHealth() / 2; p++) {
+                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.withDefaultNamespace("hud/heart/container") , x, j, 9, 9);
+                x += 8;
+            }
+            x = i;
             for (int p = 0; p < player.getMaxHealth() / 2; p++) {
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/numbness") , x, j, 9, 9);
                 x += 8;
@@ -53,7 +61,7 @@ public abstract class GuiMixin {
     @Inject(at = @At("HEAD"), method = "render")
     private void rootedOverlay(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         if (Liquamentum.shouldApplyRoots(minecraft)) {
-            guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/rooted_overlay"), 0, 0, guiGraphics.guiWidth(), guiGraphics.guiHeight());
+            this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
         }
     }
 

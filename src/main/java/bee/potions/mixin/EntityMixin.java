@@ -16,7 +16,7 @@ public abstract class EntityMixin {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;
-            if (livingEntity.hasEffect(LiquamentumEffects.CONSTANT_FIRE) && !livingEntity.isSpectator()) {
+            if (livingEntity.hasEffect(LiquamentumEffects.BLAZING) && !livingEntity.isSpectator()) {
                 cir.setReturnValue(true);
             }
         }

@@ -29,13 +29,13 @@ public class Liquamentum implements ModInitializer {
 	public static boolean isSleepy(Minecraft minecraft) {
 		LocalPlayer player = minecraft.player;
 		if (player != null) {
-			return (player.hasEffect(LiquamentumEffects.SLEEPY) && !player.isCreative() && !player.isSpectator());
+			return (player.hasEffect(LiquamentumEffects.FATIGUED) && !player.isCreative() && !player.isSpectator());
 		} else return false;
 	}
 
 	public static boolean isSleepy(Player player) {
 		if (player != null) {
-			return (player.hasEffect(LiquamentumEffects.SLEEPY) && !player.isCreative() && !player.isSpectator());
+			return (player.hasEffect(LiquamentumEffects.FATIGUED) && !player.isCreative() && !player.isSpectator());
 		} else return false;
 	}
 

@@ -18,6 +18,9 @@
 		"main": [
 			"bee.potions.Liquamentum"
 		],
+		"client": [
+			"bee.potions.LiquamentumClient"
+		],
 		"fabric-datagen": [
 			"bee.potions.LiquamentumDataGenerator"
 		]

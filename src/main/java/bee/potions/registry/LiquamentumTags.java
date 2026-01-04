@@ -11,6 +11,8 @@ public class LiquamentumTags {
 
     public static final TagKey<Item> BREWABLE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "brewable"));
 
+    public static final TagKey<Item> BASE_INGREDIENT = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "base_ingredient"));
+
     public static final TagKey<Item> ROCK_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "rock_type"));
     public static final TagKey<Item> ORE_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "ore_type"));
     public static final TagKey<Item> NATURE_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "nature_type"));

@@ -1,3 +1,9 @@
 {
-  "block.liquamentum.brewing_cauldron": "Brewing Cauldron"
+  "block.liquamentum.brewing_cauldron": "Brewing Cauldron",
+  "effect.liquamentum.indigestion": "Indigestion",
+  "effect.liquamentum.hydrophobia": "Hydrophobia",
+  "effect.liquamentum.fatigued": "Fatigued",
+  "effect.liquamentum.blazing": "Blazing",
+  "effect.liquamentum.rooted": "Rooted"
+
 }

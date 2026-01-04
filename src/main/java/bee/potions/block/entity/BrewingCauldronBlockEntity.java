@@ -11,6 +11,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -41,7 +42,24 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
     }
 
 
+    public void addIngredient(ItemStack itemStack, Player player) {
+        if (ingredients.getFirst().isEmpty()) {
+            if (itemStack.is(LiquamentumTags.BASE_INGREDIENT)) {
+                ingredients.add(itemStack);
+            }
+        }
 
+
+
+    }
+
+
+
+    public Holder<MobEffect> getCauldronEffects() {
+
+
+        return null;
+    }
 
 
 
@@ -109,7 +127,9 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         return NEGATIVE_EFFECT_POOL.get(getIngredientType(stack));
     }
 
-
+    public NonNullList<ItemStack> getIngredients() {
+        return ingredients;
+    }
 
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {

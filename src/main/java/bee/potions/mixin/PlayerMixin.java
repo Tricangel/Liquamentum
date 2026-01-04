@@ -3,10 +3,6 @@ package bee.potions.mixin;
 import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
 import net.minecraft.world.phys.Vec3;
@@ -31,7 +27,7 @@ public abstract class PlayerMixin {
 	@Inject(at = @At("HEAD"), method = "canEat", cancellable = true)
 	private void stopEating(boolean bl, CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.NO_EATING)) {
+		if (player.hasEffect(LiquamentumEffects.INDIGESTION)) {
 			cir.setReturnValue(false);
 		}
 	}
@@ -40,14 +36,14 @@ public abstract class PlayerMixin {
 	private void stopEating(CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
 		if (player.hasEffect(LiquamentumEffects.SINK)) {
-			cir.setReturnValue(false);
+			//cir.setReturnValue(false);
 		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "canSprint", cancellable = true)
 	private void noSprintUnderwater(CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.NOSWIM)) {
+		if (player.hasEffect(LiquamentumEffects.HYDROPHOBIA) || player.hasEffect(LiquamentumEffects.SINK)) {
 			if (player.isUnderWater()) {
 				cir.setReturnValue(false);
 			}
@@ -56,16 +52,16 @@ public abstract class PlayerMixin {
 	@Inject(at = @At("HEAD"), method = "isSwimming", cancellable = true)
 	private void noSwimming(CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.NOSWIM)) {
+		if (player.hasEffect(LiquamentumEffects.HYDROPHOBIA) || player.hasEffect(LiquamentumEffects.SINK)) {
 			cir.setReturnValue(false);
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "openTextEdit", cancellable = true)
-	private void noHearDamage(SignBlockEntity signBlockEntity, boolean bl, CallbackInfo ci) {
+	@Inject(at = @At("HEAD"), method = "isPushedByFluid", cancellable = true)
+	private void noHearDamage(CallbackInfoReturnable<Boolean> cir) {
 		Player player = (Player) (Object) this;
-		if (player.hasEffect(LiquamentumEffects.MUTE)) {
-			ci.cancel();
+		if (player.hasEffect(LiquamentumEffects.SINK)) {
+			cir.setReturnValue(false);
 		}
 	}
 
