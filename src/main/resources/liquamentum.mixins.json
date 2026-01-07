@@ -5,6 +5,7 @@
   "mixins": [
     "AnimalMixin",
     "BrewingStandBlockMixin",
+    "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
     "InputMixin",
     "LivingEntityMixin",

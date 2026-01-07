@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin {
 
     @Inject(at = @At("HEAD"), method = "isOnFire", cancellable = true)
-    private void rotateCorrectly(CallbackInfoReturnable<Boolean> cir) {
+    private void blazingFire(CallbackInfoReturnable<Boolean> cir) {
         Entity entity = (Entity) (Object) this;
         if (entity instanceof LivingEntity) {
             LivingEntity livingEntity = (LivingEntity) entity;

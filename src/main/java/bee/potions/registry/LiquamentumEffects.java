@@ -1,10 +1,7 @@
 package bee.potions.registry;
 
 import bee.potions.Liquamentum;
-import bee.potions.effect.ConstantFireEffect;
-import bee.potions.effect.EmptyEffect;
-import bee.potions.effect.FrozenEffect;
-import bee.potions.effect.ImplosionEffect;
+import bee.potions.effect.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,7 +32,7 @@ public class LiquamentumEffects {
             register("numbness", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> FEAR =
-            register("fear", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+            register("fear", new FearEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> ROOTED =
             register("rooted", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
@@ -60,6 +57,12 @@ public class LiquamentumEffects {
 
     public static final Holder<MobEffect> GILLS =
             register("gills", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> THORNS =
+            register("thorns", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> FLYING =
+            register("flying", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
 
 

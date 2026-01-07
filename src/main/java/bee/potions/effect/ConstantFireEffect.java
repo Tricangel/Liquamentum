@@ -18,16 +18,22 @@ public class ConstantFireEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity livingEntity, int i) {
-        if (livingEntity instanceof Player player) {
-            if (!player.isCreative() && !player.isSpectator() ) {
-                player.setRemainingFireTicks(10);
-                if (!player.fireImmune()) {
-                    player.hurtServer(serverLevel, player.damageSources().inFire(), 1);
+        if (!livingEntity.isInWater()) {
+            if (livingEntity instanceof Player player) {
+                if (!player.isCreative() && !player.isSpectator()) {
+                    if (livingEntity.getRemainingFireTicks() < 0) {
+                        livingEntity.setRemainingFireTicks(10);
+                    } else {
+                        livingEntity.igniteForSeconds(1);
+                    }
+                }
+            } else {
+                if (livingEntity.getRemainingFireTicks() < 0) {
+                    livingEntity.setRemainingFireTicks(10);
+                } else {
+                    livingEntity.igniteForSeconds(1);
                 }
             }
-        } else {
-            livingEntity.setRemainingFireTicks(10);
-            livingEntity.hurtServer(serverLevel, livingEntity.damageSources().inFire(), 1);
         }
         return super.applyEffectTick(serverLevel, livingEntity, i);
     }

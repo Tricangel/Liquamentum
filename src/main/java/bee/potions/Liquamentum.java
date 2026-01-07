@@ -39,16 +39,4 @@ public class Liquamentum implements ModInitializer {
 		} else return false;
 	}
 
-	public static boolean shouldApplyRoots(Minecraft minecraft) {
-		LocalPlayer player = minecraft.player;
-		if (player != null) {
-			if (player.hasEffect(LiquamentumEffects.ROOTED) && !player.isCreative() && !player.isSpectator()) {
-				BlockPos pos = player.getOnPos();
-				Level level = player.level();
-                return level.getBlockState(pos.below()).is(LiquamentumTags.ROOTS_APPLY_WHEN_ON);
-			}
-		}
-		return false;
-	}
-
 }

@@ -1,11 +1,17 @@
 package bee.potions.mixin;
 
 import bee.potions.registry.LiquamentumEffects;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -42,7 +48,7 @@ public abstract class LivingEntityMixin {
 		}
 
 		if (entity.hasEffect(LiquamentumEffects.ARSONIST)) {
-			if (damageSource.is(DamageTypes.IN_FIRE) || damageSource.is(DamageTypes.ON_FIRE)) {
+			if (damageSource.is(DamageTypeTags.IS_FIRE)) {
 				if (!entity.isInvulnerableTo(serverLevel, damageSource)) {
 					if (damageSource.is(DamageTypes.IN_FIRE)) {
 						amount /= 32;
@@ -50,6 +56,14 @@ public abstract class LivingEntityMixin {
 					entity.heal(amount);
 					cir.setReturnValue(false);
 				}
+			}
+		}
+
+
+		if (entity.hasEffect(LiquamentumEffects.THORNS)) {
+			if (damageSource.getEntity() != null) {
+				LivingEntity attacker = (LivingEntity) damageSource.getEntity();
+				attacker.hurtServer(serverLevel, serverLevel.damageSources().thorns(entity), (float) Math.clamp(1 * (.2 * amount), 0, 15));
 			}
 		}
 
@@ -63,9 +77,6 @@ public abstract class LivingEntityMixin {
 				setSprinting(false);
 			}
 		}
-
-
-
 	}
 
 	@Inject(at = @At("HEAD"), method = "isAffectedByFluids", cancellable = true)
@@ -94,7 +105,7 @@ public abstract class LivingEntityMixin {
 	}
 
 	@Inject(at = @At("HEAD"), method = "shouldTravelInFluid", cancellable = true)
-	private void Liquamentum$getWaterSlowDown(CallbackInfoReturnable<Boolean> cir) {
+	private void Liquamentum$shouldTravelInFluid(CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		if (entity.hasEffect(LiquamentumEffects.SINK)) {
 			cir.setReturnValue(false);
@@ -110,7 +121,7 @@ public abstract class LivingEntityMixin {
 	}
 
 	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
-	private void Liquamentum$hasLandedInLiquid(CallbackInfoReturnable<Boolean> cir) {
+	private void Liquamentum$hurtServer(CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		if (entity.hasEffect(LiquamentumEffects.SINK)) {
 			cir.setReturnValue(false);
@@ -126,7 +137,7 @@ public abstract class LivingEntityMixin {
 	}
 
 	@Inject(at = @At("HEAD"), method = "canStandOnFluid", cancellable = true)
-	private void waterWalking(FluidState fluidState, CallbackInfoReturnable<Boolean> cir) {
+	private void Liquamentum$canStandOnFluid(FluidState fluidState, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		if (entity.hasEffect(LiquamentumEffects.LAVA_WALKING)) {
 			if (fluidState.is(Fluids.LAVA)) {
@@ -149,6 +160,7 @@ public abstract class LivingEntityMixin {
 			cir.setReturnValue(true);
 		}
 	}
+
 
 
 }

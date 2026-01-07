@@ -33,7 +33,10 @@ public abstract class GuiMixin {
 
     @Inject(at = @At("HEAD"), method = "renderHearts", cancellable = true)
     private void cancelRendering(GuiGraphics guiGraphics, Player player, int i, int j, int k, int l, float f, int m, int n, int o, boolean bl, CallbackInfo ci) {
-        if (player.hasEffect(LiquamentumEffects.NUMBNESS)) {
+        if (player.hasEffect(LiquamentumEffects.NUMBNESS) || player.hasEffect(LiquamentumEffects.ARSONIST)) {
+            Identifier heartType = null;
+            if (player.hasEffect(LiquamentumEffects.NUMBNESS)) heartType = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/numbness");
+            if (player.hasEffect(LiquamentumEffects.ARSONIST)) heartType = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/arsonist");
             int x = i;
             for (int p = 0; p < player.getMaxHealth() / 2; p++) {
                 guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.withDefaultNamespace("hud/heart/container") , x, j, 9, 9);
@@ -41,7 +44,7 @@ public abstract class GuiMixin {
             }
             x = i;
             for (int p = 0; p < player.getMaxHealth() / 2; p++) {
-                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/numbness") , x, j, 9, 9);
+                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, heartType , x, j, 9, 9);
                 x += 8;
             }
             ci.cancel();
@@ -60,8 +63,11 @@ public abstract class GuiMixin {
 
     @Inject(at = @At("HEAD"), method = "render")
     private void rootedOverlay(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (Liquamentum.shouldApplyRoots(minecraft)) {
-            this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
+        LocalPlayer player = minecraft.player;
+        if (player != null) {
+            if (player.hasEffect(LiquamentumEffects.ROOTED) && !player.isCreative() && !player.isSpectator()) {
+                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
+            }
         }
     }
 
