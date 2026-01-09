@@ -18,6 +18,14 @@ public class LiquamentumItemTagDatagen extends FabricTagProvider.ItemTagProvider
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
+        valueLookupBuilder(LiquamentumTags.BASE_INGREDIENT)
+                .forceAddTag(LiquamentumTags.FLOWER_TYPE)
+                .add(Items.NETHER_WART)
+                .add(Items.CRIMSON_FUNGUS)
+                .add(Items.WARPED_FUNGUS)
+                .add(Items.DRAGON_BREATH);
+
+
 
         valueLookupBuilder(LiquamentumTags.ROCK_TYPE)
                 .forceAddTag(ItemTags.STONE_CRAFTING_MATERIALS)
@@ -47,25 +55,43 @@ public class LiquamentumItemTagDatagen extends FabricTagProvider.ItemTagProvider
                 .add(Items.QUARTZ)
                 .add(Items.AMETHYST_SHARD);
 
-        valueLookupBuilder(LiquamentumTags.NATURE_TYPE)
-                .forceAddTag(ItemTags.FLOWERS)
-                .forceAddTag(ItemTags.SAPLINGS)
-                .forceAddTag(ItemTags.LOGS)
+        valueLookupBuilder(LiquamentumTags.FLOWER_TYPE)
+                .add(Items.OXEYE_DAISY)
+                .add(Items.CORNFLOWER)
+                .add(Items.LILY_OF_THE_VALLEY)
+                .add(Items.TORCHFLOWER)
+                .add(Items.CACTUS_FLOWER)
+                .add(Items.SPORE_BLOSSOM)
+                .add(Items.LILAC)
+                .add(Items.SUNFLOWER)
+                .add(Items.ROSE_BUSH)
+                .add(Items.PEONY)
+                .add(Items.PITCHER_PLANT)
+                .add(Items.PINK_TULIP)
+                .add(Items.WHITE_TULIP)
+                .add(Items.ORANGE_TULIP)
+                .add(Items.RED_TULIP)
+                .add(Items.AZURE_BLUET)
+                .add(Items.ALLIUM)
+                .add(Items.BLUE_ORCHID)
+                .add(Items.DANDELION)
+                .add(Items.POPPY);
+
+        valueLookupBuilder(LiquamentumTags.CROP_TYPE)
+                .add(Items.WHEAT)
                 .add(Items.POTATO)
                 .add(Items.CARROT)
-                .add(Items.CACTUS)
-                .add(Items.WHEAT)
-                .add(Items.BEETROOT)
-                .add(Items.COCOA_BEANS)
-                .add(Items.PITCHER_POD)
+                .add(Items.APPLE)
+                .add(Items.SWEET_BERRIES)
+                .add(Items.GLOW_BERRIES)
+                .add(Items.SUGAR_CANE)
                 .add(Items.MELON)
                 .add(Items.PUMPKIN)
-                .add(Items.SUGAR_CANE)
-                .add(Items.POISONOUS_POTATO)
-                .add(Items.GLOW_BERRIES)
-                .add(Items.SWEET_BERRIES)
                 .add(Items.BROWN_MUSHROOM)
                 .add(Items.RED_MUSHROOM);
+
+        valueLookupBuilder(LiquamentumTags.WOOD_TYPE)
+                .forceAddTag(ItemTags.LOGS);
 
         valueLookupBuilder(LiquamentumTags.FIRE_TYPE)
                 .add(Items.MAGMA_BLOCK)
@@ -129,14 +155,17 @@ public class LiquamentumItemTagDatagen extends FabricTagProvider.ItemTagProvider
         valueLookupBuilder(LiquamentumTags.BREWABLE)
                 .forceAddTag(LiquamentumTags.ROCK_TYPE)
                 .forceAddTag(LiquamentumTags.ORE_TYPE)
-                .forceAddTag(LiquamentumTags.NATURE_TYPE)
+                .forceAddTag(LiquamentumTags.FLOWER_TYPE)
+                .forceAddTag(LiquamentumTags.CROP_TYPE)
+                .forceAddTag(LiquamentumTags.WOOD_TYPE)
                 .forceAddTag(LiquamentumTags.FIRE_TYPE)
                 .forceAddTag(LiquamentumTags.WATER_TYPE)
                 .forceAddTag(LiquamentumTags.UNDEAD_TYPE)
                 .forceAddTag(LiquamentumTags.FLESH_TYPE)
                 .forceAddTag(LiquamentumTags.SKY_TYPE)
                 .forceAddTag(LiquamentumTags.END_TYPE)
-                .forceAddTag(LiquamentumTags.BOSS_TYPE);
+                .forceAddTag(LiquamentumTags.BOSS_TYPE)
+                .forceAddTag(LiquamentumTags.BASE_INGREDIENT);
 
 
 

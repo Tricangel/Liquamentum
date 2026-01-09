@@ -10,18 +10,24 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,15 +48,49 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
     }
 
 
-    public void addIngredient(ItemStack itemStack, Player player) {
-        if (ingredients.getFirst().isEmpty()) {
-            if (itemStack.is(LiquamentumTags.BASE_INGREDIENT)) {
-                ingredients.add(itemStack);
-            }
+    public Boolean addIngredient(ItemStack itemStack, Player player) {
+        BlockPos pos = this.getBlockPos();
+        boolean addedIngredient = false;
+        if (!itemStack.isEmpty()) {
+                for (int i = 0; i < ingredients.size(); i++) {
+                    if (ingredients.get(i).isEmpty()) {
+
+                        if (!ingredients.getFirst().isEmpty()) {
+                            if (ingredients.getFirst().is(LiquamentumTags.FLOWER_TYPE)) {
+                                if (itemStack.is(LiquamentumTags.FLOWER_TYPE)) {
+                                    ingredients.set(i, itemStack.consumeAndReturn(1, player));
+                                    setChanged();
+                                    addedIngredient = true;
+                                }
+                            } else {
+                                ingredients.set(i, itemStack.consumeAndReturn(1, player));
+                                setChanged();
+                                addedIngredient = true;
+                            }
+                        } else {
+                            if (itemStack.is(LiquamentumTags.BASE_INGREDIENT)) {
+                                ingredients.set(i, itemStack.consumeAndReturn(1, player));
+                                setChanged();
+                                addedIngredient = true;
+                            }
+                        }
+
+                        if (addedIngredient) {
+                            for (int j = 0; j < 30; j++) {
+                                float x = pos.getX() + 0.5f;
+                                float y = pos.getX() + 1.5f;
+                                float z = pos.getX() + 0.5f;
+                                level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, 0.1, 0.1, 0.1    );
+                            }
+                            level.playLocalSound(player, SoundEvents.BUBBLE_POP, SoundSource.BLOCKS, 15, 1);
+                            setChanged();
+                            return true;
+                        }
+
+                    }
+                }
         }
-
-
-
+        return false;
     }
 
 
@@ -76,7 +116,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
     public static IngredientTypes getIngredientType(ItemStack stack) {
         if (stack.is(LiquamentumTags.ROCK_TYPE)) return IngredientTypes.ROCK;
         if (stack.is(LiquamentumTags.ORE_TYPE)) return IngredientTypes.ORE;
-        if (stack.is(LiquamentumTags.NATURE_TYPE)) return IngredientTypes.NATURE;
+        if (stack.is(LiquamentumTags.FLOWER_TYPE)) return IngredientTypes.NATURE;
         if (stack.is(LiquamentumTags.FIRE_TYPE)) return IngredientTypes.FIRE;
         if (stack.is(LiquamentumTags.WATER_TYPE)) return IngredientTypes.WATER;
         if (stack.is(LiquamentumTags.UNDEAD_TYPE)) return IngredientTypes.UNDEAD;

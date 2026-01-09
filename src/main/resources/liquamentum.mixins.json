@@ -8,6 +8,7 @@
     "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
     "InputMixin",
+    "LightEngineMixin",
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
     "PlayerMixin"

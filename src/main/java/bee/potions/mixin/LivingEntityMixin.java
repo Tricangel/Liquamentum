@@ -1,17 +1,12 @@
 package bee.potions.mixin;
 
 import bee.potions.registry.LiquamentumEffects;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -77,20 +72,31 @@ public abstract class LivingEntityMixin {
 				setSprinting(false);
 			}
 		}
+
 	}
 
-	@Inject(at = @At("HEAD"), method = "isAffectedByFluids", cancellable = true)
-	private void sinkInWater(CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.SINK)) {
-			cir.setReturnValue(false);
-		}
-	}
 
 	@Inject(at = @At("HEAD"), method = "jumpInLiquid", cancellable = true)
 	private void Liquamentum$(TagKey<Fluid> tagKey, CallbackInfo ci) {
 		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.SINK)) {
+		if (entity.hasEffect(LiquamentumEffects.ROCK)) {
+			if (entity.onGround()) {
+				float f = (float) (BASE_JUMP_POWER / 1.5);
+				Vec3 vec3 = entity.getDeltaMovement();
+				entity.setDeltaMovement(vec3.x, Math.max((double)f, vec3.y), vec3.z);
+				if (entity.isSprinting()) {
+					float g = entity.getYRot() * ((float)Math.PI / 180F);
+					entity.addDeltaMovement(new Vec3((double)(-Mth.sin((double)g)) * 0.2, (double)0.0F, (double)Mth.cos((double)g) * 0.2));
+				}
+			}
+			entity.needsSync = true;
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "jumpOutOfFluid", cancellable = true)
+	private void Liquamentum$jumpOutOfFluid(double d, CallbackInfo ci) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity.hasEffect(LiquamentumEffects.ROCK)) {
 			if (entity.onGround()) {
 				float f = (float) (BASE_JUMP_POWER / 1.5);
 				Vec3 vec3 = entity.getDeltaMovement();
@@ -107,7 +113,7 @@ public abstract class LivingEntityMixin {
 	@Inject(at = @At("HEAD"), method = "shouldTravelInFluid", cancellable = true)
 	private void Liquamentum$shouldTravelInFluid(CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.SINK)) {
+		if (entity.hasEffect(LiquamentumEffects.ROCK)) {
 			cir.setReturnValue(false);
 		}
 	}
@@ -115,26 +121,11 @@ public abstract class LivingEntityMixin {
 	@Inject(at = @At("HEAD"), method = "travelInWater", cancellable = true)
 	private void Liquamentum$travelInWater(Vec3 vec3, double d, boolean bl, double e, CallbackInfo ci) {
 		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.SINK)) {
+		if (entity.hasEffect(LiquamentumEffects.ROCK)) {
 			ci.cancel();
 		}
 	}
 
-	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
-	private void Liquamentum$hurtServer(CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.SINK)) {
-			cir.setReturnValue(false);
-		}
-	}
-
-	@Inject(at = @At("HEAD"), method = "goDownInWater", cancellable = true)
-	private void Liquamentum$goDownInWater(CallbackInfo ci) {
-		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.WATER_WALKING)) {
-			ci.cancel();
-		}
-	}
 
 	@Inject(at = @At("HEAD"), method = "canStandOnFluid", cancellable = true)
 	private void Liquamentum$canStandOnFluid(FluidState fluidState, CallbackInfoReturnable<Boolean> cir) {
@@ -146,7 +137,7 @@ public abstract class LivingEntityMixin {
 		}
 
 		if (entity.hasEffect(LiquamentumEffects.WATER_WALKING)) {
-			if (fluidState.is(Fluids.LAVA)) {
+			if (fluidState.is(Fluids.WATER)) {
 				cir.setReturnValue(true);
 			}
 		}

@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class NatureEffects {
 
+
     private Map<Item, Holder<MobEffect>> positiveEffects = Map.ofEntries(
             Map.entry(Items.OXEYE_DAISY, naturePositiveEffects.get(0)),
             Map.entry(Items.CORNFLOWER, naturePositiveEffects.get(1)),

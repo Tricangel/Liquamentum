@@ -62,9 +62,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity) {
-            brewingCauldronBlockEntity.addIngredient(itemStack, player);
-            if (itemStack.is(LiquamentumTags.BREWABLE)) {
-
+            if (brewingCauldronBlockEntity.addIngredient(itemStack, player)) {
                 return InteractionResult.SUCCESS;
             }
             }

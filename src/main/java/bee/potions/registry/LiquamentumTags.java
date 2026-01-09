@@ -15,7 +15,9 @@ public class LiquamentumTags {
 
     public static final TagKey<Item> ROCK_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "rock_type"));
     public static final TagKey<Item> ORE_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "ore_type"));
-    public static final TagKey<Item> NATURE_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "nature_type"));
+    public static final TagKey<Item> FLOWER_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "flower_type"));
+    public static final TagKey<Item> CROP_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "crop_type"));
+    public static final TagKey<Item> WOOD_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "wood_type"));
     public static final TagKey<Item> FIRE_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "fire_type"));
     public static final TagKey<Item> WATER_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "water_type"));
     public static final TagKey<Item> UNDEAD_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "undead_type"));

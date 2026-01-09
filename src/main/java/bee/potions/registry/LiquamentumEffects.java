@@ -10,8 +10,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 
 public class LiquamentumEffects {
-    public static final Holder<MobEffect> LOWLIGHT =
-            register("lowlight", new EmptyEffect(MobEffectCategory.HARMFUL, 12));
+    public static final Holder<MobEffect> INVERT_LIGHT =
+            register("invert_light", new EmptyEffect(MobEffectCategory.HARMFUL, 12));
 
     public static final Holder<MobEffect> MUTE =
             register("mute", new EmptyEffect(MobEffectCategory.HARMFUL, 12));
@@ -32,7 +32,7 @@ public class LiquamentumEffects {
             register("numbness", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> FEAR =
-            register("fear", new FearEffect(MobEffectCategory.HARMFUL, 123));
+            register("fear", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> ROOTED =
             register("rooted", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
@@ -40,8 +40,8 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> HYDROPHOBIA =
             register("hydrophobia", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
-    public static final Holder<MobEffect> SINK =
-            register("sink", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
+    public static final Holder<MobEffect> ROCK =
+            register("rock", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> WATER_WALKING =
             register("water_walking", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
