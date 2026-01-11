@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
@@ -69,7 +70,7 @@ public abstract class GuiMixin {
                 this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
             }
             if (player.hasEffect(LiquamentumEffects.RAGE) && !player.isCreative() && !player.isSpectator()) {
-                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rage_overlay.png"), player.getHealth() * 100);
+                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rage_overlay.png"), (player.getMaxHealth() - player.getHealth()));
             }
         }
     }

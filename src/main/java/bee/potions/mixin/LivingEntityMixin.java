@@ -29,6 +29,9 @@ public abstract class LivingEntityMixin {
 	@Final
 	public static float BASE_JUMP_POWER;
 
+	@Shadow
+	protected abstract double getDefaultGravity();
+
 	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
 	private void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
@@ -52,6 +55,14 @@ public abstract class LivingEntityMixin {
 					} else amount /= 4;
 					entity.heal(amount);
 					cir.setReturnValue(false);
+				}
+			}
+		}
+
+		if (entity.hasEffect(LiquamentumEffects.FIRE_VULNERABILITY)) {
+			if (damageSource.is(DamageTypeTags.IS_FIRE)) {
+				if (!entity.isInvulnerableTo(serverLevel, damageSource)) {
+					amount *= 424;
 				}
 			}
 		}
@@ -157,6 +168,15 @@ public abstract class LivingEntityMixin {
 
 		if (entity.hasEffect(LiquamentumEffects.GILLS)) {
 			cir.setReturnValue(true);
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "getEffectiveGravity", cancellable = true)
+	private void Liquamentum$getEffectiveGravity(CallbackInfoReturnable<Double> cir) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+
+		if (entity.hasEffect(LiquamentumEffects.LOW_GRAVITY)) {
+			cir.setReturnValue(getDefaultGravity() / 2);
 		}
 	}
 

@@ -73,6 +73,12 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> RAGE =
             register("rage", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
+    public static final Holder<MobEffect> LOW_GRAVITY =
+            register("low_gravity", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> FIRE_VULNERABILITY =
+            register("fire_vulnerability", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
 
 
     private static Holder<MobEffect> register(String name, MobEffect effect) {

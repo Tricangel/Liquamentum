@@ -25,9 +25,6 @@ public class ButterFingersEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity livingEntity, int i) {
         i++;
-        if (livingEntity instanceof Player player) {
-            player.displayClientMessage(Component.literal(String.valueOf(new Random().nextInt(0, 256 / i))),false);
-        }
         if (new Random().nextInt(0,  256 / i) == 0) {
             livingEntity.drop(livingEntity.getMainHandItem().consumeAndReturn(livingEntity.getMainHandItem().getCount(), livingEntity), false, true);
         }
