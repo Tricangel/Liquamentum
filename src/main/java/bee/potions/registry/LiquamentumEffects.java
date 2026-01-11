@@ -81,6 +81,7 @@ public class LiquamentumEffects {
 
 
 
+
     private static Holder<MobEffect> register(String name, MobEffect effect) {
         Identifier id = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, name);
         return Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id, effect);

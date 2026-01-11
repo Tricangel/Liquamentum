@@ -4,6 +4,21 @@
   "effect.liquamentum.hydrophobia": "Hydrophobia",
   "effect.liquamentum.fatigued": "Fatigued",
   "effect.liquamentum.blazing": "Blazing",
-  "effect.liquamentum.rooted": "Rooted"
+  "effect.liquamentum.rooted": "Rooted",
+  "effect.liquamentum.frozen": "Frozen",
+  "effect.liquamentum.fear": "Fear",
+  "effect.liquamentum.rage": "Rage",
+  "effect.liquamentum.butter_fingers": "Clumsy",
+  "effect.liquamentum.thorns": "Thorns",
+  "effect.liquamentum.rock": "Sinking",
+  "effect.liquamentum.lava_walking": "Lavawalker",
+  "effect.liquamentum.gills": "Gills",
+  "effect.liquamentum.arsonist": "Arsonist",
+  "effect.liquamentum.numbness": "Numbness",
+  "effect.liquamentum.invert_light": "Polarity",
+  "effect.liquamentum.mute": "Mute",
+  "effect.liquamentum.rain_blessing": "Rain blessing",
+  "effect.liquamentum.water_walking": "Waterwalker",
+  "effect.liquamentum.flying": "Gliding"
 
 }
