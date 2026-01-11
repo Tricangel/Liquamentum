@@ -8,10 +8,10 @@
     "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
     "InputMixin",
-    "LightEngineMixin",
     "LivingEntityMixin",
     "MobEffectInstanceMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "TridentItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

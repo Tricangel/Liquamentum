@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -31,6 +32,7 @@ public abstract class LivingEntityMixin {
 	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
 	private void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
+		Entity attackerEntity = damageSource.getEntity();
 		if (entity.hasEffect(LiquamentumEffects.FATIGUED)) {
 			entity.removeEffect(LiquamentumEffects.FATIGUED);
 			cir.setReturnValue(false);
@@ -59,6 +61,12 @@ public abstract class LivingEntityMixin {
 			if (damageSource.getEntity() != null) {
 				LivingEntity attacker = (LivingEntity) damageSource.getEntity();
 				attacker.hurtServer(serverLevel, serverLevel.damageSources().thorns(entity), (float) Math.clamp(1 * (.2 * amount), 0, 15));
+			}
+		}
+
+		if (attackerEntity instanceof LivingEntity attacker) {
+			if (attacker.hasEffect(LiquamentumEffects.RAGE)) {
+				amount *= attacker.getMaxHealth() - attacker.getHealth() / 2;
 			}
 		}
 
@@ -151,6 +159,7 @@ public abstract class LivingEntityMixin {
 			cir.setReturnValue(true);
 		}
 	}
+
 
 
 

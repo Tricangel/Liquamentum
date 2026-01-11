@@ -64,6 +64,15 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> FLYING =
             register("flying", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
+    public static final Holder<MobEffect> RAIN_BLESSING =
+            register("rain_blessing", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> BUTTER_FINGERS =
+            register("butter_fingers", new ButterFingersEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> RAGE =
+            register("rage", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
 
 
     private static Holder<MobEffect> register(String name, MobEffect effect) {

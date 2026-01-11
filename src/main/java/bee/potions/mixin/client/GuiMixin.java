@@ -68,6 +68,9 @@ public abstract class GuiMixin {
             if (player.hasEffect(LiquamentumEffects.ROOTED) && !player.isCreative() && !player.isSpectator()) {
                 this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
             }
+            if (player.hasEffect(LiquamentumEffects.RAGE) && !player.isCreative() && !player.isSpectator()) {
+                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rage_overlay.png"), player.getHealth() * 100);
+            }
         }
     }
 
