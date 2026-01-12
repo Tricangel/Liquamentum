@@ -1,6 +1,8 @@
 package bee.potions.mixin;
 
+import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
@@ -16,7 +18,9 @@ import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -32,12 +36,17 @@ public abstract class LivingEntityMixin {
 	@Shadow
 	protected abstract double getDefaultGravity();
 
+
 	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
 	private void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
-		Entity attackerEntity = damageSource.getEntity();
+
 		if (entity.hasEffect(LiquamentumEffects.FATIGUED)) {
 			entity.removeEffect(LiquamentumEffects.FATIGUED);
+			cir.setReturnValue(false);
+		}
+
+		if (Liquamentum.isFrozen(entity)) {
 			cir.setReturnValue(false);
 		}
 
@@ -67,19 +76,18 @@ public abstract class LivingEntityMixin {
 			}
 		}
 
-
-		if (entity.hasEffect(LiquamentumEffects.THORNS)) {
-			if (damageSource.getEntity() != null) {
-				LivingEntity attacker = (LivingEntity) damageSource.getEntity();
+		if (damageSource.getEntity() != null) {
+			LivingEntity attacker = (LivingEntity) damageSource.getEntity();
+			if (entity.hasEffect(LiquamentumEffects.THORNS)) {
 				attacker.hurtServer(serverLevel, serverLevel.damageSources().thorns(entity), (float) Math.clamp(1 * (.2 * amount), 0, 15));
 			}
+
+			if (attacker.hasEffect(LiquamentumEffects.HOT_TOUCH)) {
+				entity.igniteForSeconds(2);
+			}
+
 		}
 
-		if (attackerEntity instanceof LivingEntity attacker) {
-			if (attacker.hasEffect(LiquamentumEffects.RAGE)) {
-				amount *= attacker.getMaxHealth() - attacker.getHealth() / 2;
-			}
-		}
 
 	}
 
@@ -178,6 +186,48 @@ public abstract class LivingEntityMixin {
 		if (entity.hasEffect(LiquamentumEffects.LOW_GRAVITY)) {
 			cir.setReturnValue(getDefaultGravity() / 2);
 		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "knockback", cancellable = true)
+	private void Liquamentum$knockback(double d, double e, double f, CallbackInfo ci) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+
+		if (entity.hasEffect(LiquamentumEffects.STURDY)) {
+			ci.cancel();
+		}
+	}
+
+	@Inject(at = @At("HEAD"), method = "getVisibilityPercent", cancellable = true)
+	private void Liquamentum$getVisibilityPercent(Entity entity, CallbackInfoReturnable<Double> cir) {
+		LivingEntity livingEntity = (LivingEntity) (Object) this;
+
+		if (livingEntity.hasEffect(LiquamentumEffects.KIN)) {
+			cir.setReturnValue(0.2);
+		}
+
+		if (livingEntity.hasEffect(LiquamentumEffects.SHINY)) {
+			cir.setReturnValue(2.0);
+		}
+
+	}
+
+
+
+	@ModifyVariable(at = @At(value = "HEAD"), method = "hurtServer", argsOnly = true)
+	private float modifyDamageamount(float original) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		LivingEntity attackerEntity = entity.getLastAttacker();
+		if (entity != null) {
+			if (entity.hasEffect(LiquamentumEffects.BERSERK)) return original + entity.getEffect(LiquamentumEffects.BERSERK).getAmplifier() + 2;
+		}
+
+		if (attackerEntity instanceof LivingEntity attacker) {
+			if (attacker.hasEffect(LiquamentumEffects.RAGE)) {
+				return (float) (original + (attacker.getMaxHealth() - attacker.getHealth()) / 2.5);
+			}
+		}
+
+		return original;
 	}
 
 

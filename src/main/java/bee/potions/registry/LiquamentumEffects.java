@@ -77,10 +77,37 @@ public class LiquamentumEffects {
             register("low_gravity", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
     public static final Holder<MobEffect> FIRE_VULNERABILITY =
-            register("fire_vulnerability", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+            register("fire_vulnerability", new EmptyEffect(MobEffectCategory.HARMFUL, 123));
 
     public static final Holder<MobEffect> LOWER_JUMP =
-            register("lower_jump", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+            register("lower_jump", new LowerJumpEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> BERSERK =
+            register("berserk", new BerserkEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> KIN =
+            register("kin", new BerserkEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> SHINY =
+            register("shiny", new BerserkEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> PETRIFIED =
+            register("petrified", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> EXPERIENCED =
+            register("experienced", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> DECAY =
+            register("decay", new DecayEffect(MobEffectCategory.HARMFUL, 123));
+
+    public static final Holder<MobEffect> STURDY =
+            register("sturdy", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> HOT_TOUCH =
+            register("hot_touch", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
+    public static final Holder<MobEffect> ROCK_APPEARANCE =
+            register("rock_appearance", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
 
 

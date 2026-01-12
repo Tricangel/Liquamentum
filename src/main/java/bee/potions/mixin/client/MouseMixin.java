@@ -13,42 +13,49 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MouseHandler.class)
 public abstract class MouseMixin {
-	@Shadow private double ypos;
-
-	@Shadow private double accumulatedDY;
 
 	@Inject(at = @At("HEAD"), method = "isLeftPressed", cancellable = true)
 	private void cancelLeftClick(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isSleepy(Minecraft.getInstance()) && !Minecraft.getInstance().screen.isInGameUi()) {
-			cir.setReturnValue(false);
+		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
+			if (Minecraft.getInstance().screen != null) {
+				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);
+			} else cir.setReturnValue(false);
 		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "isRightPressed", cancellable = true)
 	private void cancelRightClick(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isSleepy(Minecraft.getInstance()) && !Minecraft.getInstance().screen.isInGameUi()) {
-			cir.setReturnValue(false);
+		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
+			if (Minecraft.getInstance().screen != null) {
+				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);
+			} else cir.setReturnValue(false);
 		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "isMiddlePressed", cancellable = true)
 	private void cancelMiddleMouse(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isSleepy(Minecraft.getInstance()) && !Minecraft.getInstance().screen.isInGameUi()) {
-			cir.setReturnValue(false);
+		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
+			if (Minecraft.getInstance().screen != null) {
+				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);
+			} else cir.setReturnValue(false);
 		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "onButton", cancellable = true)
 	private void cancelAll(long l, MouseButtonInfo mouseButtonInfo, int i, CallbackInfo ci) {
-		if (Liquamentum.isSleepy(Minecraft.getInstance()) && !Minecraft.getInstance().screen.isInGameUi()) {
-			ci.cancel();
+		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
+			if (Minecraft.getInstance().screen != null) {
+				if (!Minecraft.getInstance().screen.isInGameUi()) ci.cancel();
+			} else ci.cancel();
 		}
 	}
 
 	@Inject(at = @At("HEAD"), method = "onMove", cancellable = true)
 	private void stopMovement(long l, double d, double e, CallbackInfo ci) {
-		if (Liquamentum.isSleepy(Minecraft.getInstance()) && !Minecraft.getInstance().screen.isInGameUi()) {
-			ci.cancel();
+		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
+			if (Minecraft.getInstance().screen != null) {
+				if (!Minecraft.getInstance().screen.isInGameUi()) ci.cancel();
+			} else ci.cancel();
 		}
 	}
 

@@ -9,20 +9,20 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class LowerJumpEffect extends MobEffect {
-    public LowerJumpEffect(MobEffectCategory mobEffectCategory, int i) {
+public class BerserkEffect extends MobEffect {
+    public BerserkEffect(MobEffectCategory mobEffectCategory, int i) {
         super(mobEffectCategory, i);
     }
 
-
     @Override
     public void addAttributeModifiers(AttributeMap attributeMap, int i) {
-        AttributeInstance attribute = attributeMap.getInstance(Attributes.JUMP_STRENGTH);
-        if (attribute != null) {
-            attribute.addTransientModifier(new AttributeModifier(
-                    Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "lower_jump"),
-                    -attribute.getBaseValue() / 2,
-                    AttributeModifier.Operation.ADD_MULTIPLIED_BASE
+        super.addAttributeModifiers(attributeMap, i);
+        AttributeInstance moreDamageGiven = attributeMap.getInstance(Attributes.ATTACK_DAMAGE);
+        if (moreDamageGiven != null) {
+            moreDamageGiven.addTransientModifier(new AttributeModifier(
+                    Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "attack_damage_increase"),
+                    2,
+                    AttributeModifier.Operation.ADD_VALUE
 
             ));
         }
