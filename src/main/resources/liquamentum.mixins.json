@@ -9,7 +9,10 @@
     "EntityMixin",
     "InputMixin",
     "LivingEntityMixin",
+    "LookControlMixin",
     "MobEffectInstanceMixin",
+    "MobMixin",
+    "PathNavigationMixin",
     "PlayerMixin",
     "TridentItemMixin"
   ],
@@ -23,6 +26,7 @@
     "client.ChatScreenMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
+    "client.ModelMixin",
     "client.MouseMixin"
   ]
 }

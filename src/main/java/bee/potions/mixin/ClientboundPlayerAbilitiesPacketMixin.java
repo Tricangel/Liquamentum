@@ -1,6 +1,5 @@
 package bee.potions.mixin;
 
-import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -15,6 +14,16 @@ public abstract class ClientboundPlayerAbilitiesPacketMixin {
 
     @Inject(at = @At("HEAD"), method = "canFly", cancellable = true)
     private void waw(CallbackInfoReturnable<Boolean> cir) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player != null) {
+            if (player.hasEffect(LiquamentumEffects.FLYING)) {
+                cir.setReturnValue(true);
+            }
+        }
+    }
+
+    @Inject(at = @At("HEAD"), method = "isFlying", cancellable = true)
+    private void wawa(CallbackInfoReturnable<Boolean> cir) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.hasEffect(LiquamentumEffects.FLYING)) {

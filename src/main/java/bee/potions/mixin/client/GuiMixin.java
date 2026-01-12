@@ -3,15 +3,12 @@ package bee.potions.mixin.client;
 
 import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
@@ -70,7 +67,9 @@ public abstract class GuiMixin {
                 this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rooted_overlay.png"), 10000);
             }
             if (player.hasEffect(LiquamentumEffects.RAGE) && !player.isCreative() && !player.isSpectator()) {
-                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rage_overlay.png"), (player.getMaxHealth() - player.getHealth()));
+                float opacity = (float) ((((int) (player.getMaxHealth() - player.getHealth()) / 2) * .10) / 2);
+                player.displayClientMessage(Component.literal(String.valueOf(opacity)), true);
+                this.renderTextureOverlay(guiGraphics, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/rage_overlay.png"), opacity);
             }
         }
     }

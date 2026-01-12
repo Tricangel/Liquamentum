@@ -3,7 +3,6 @@ package bee.potions.mixin.client;
 import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -17,10 +16,10 @@ public abstract class GameRendererMixin {
 
 	@Inject(at = @At("HEAD"), method = "getDarkenWorldAmount", cancellable = true)
 	private void lowerLight(float f, CallbackInfoReturnable<Float> cir) {
-
-		if (Liquamentum.isSleepy(Minecraft.getInstance())) {
-			cir.setReturnValue(1.5f);
-
+		if (Minecraft.getInstance().player != null) {
+			if (Liquamentum.isFrozen(Minecraft.getInstance()) && Minecraft.getInstance().player.hasEffect(LiquamentumEffects.FATIGUED)) {
+				cir.setReturnValue(1.5f);
+			}
 		}
 
 	}
