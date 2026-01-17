@@ -14,26 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MouseHandler.class)
 public abstract class MouseMixin {
 
-	@Inject(at = @At("HEAD"), method = "isLeftPressed", cancellable = true)
-	private void cancelLeftClick(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
-			if (Minecraft.getInstance().screen != null) {
-				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);
-			} else cir.setReturnValue(false);
-		}
-	}
-
-	@Inject(at = @At("HEAD"), method = "isRightPressed", cancellable = true)
-	private void cancelRightClick(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
-			if (Minecraft.getInstance().screen != null) {
-				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);
-			} else cir.setReturnValue(false);
-		}
-	}
-
-	@Inject(at = @At("HEAD"), method = "isMiddlePressed", cancellable = true)
-	private void cancelMiddleMouse(CallbackInfoReturnable<Boolean> cir) {
+	// combined "cancelLeftClick", "cancelRightClick" and "cancelMiddleMouse" to "cancelMouseInput"
+	@Inject(at = @At("HEAD"), method = {"isLeftPressed","isRightPressed","isMiddlePressed"}, cancellable = true)
+	private void cancelMouseInput(CallbackInfoReturnable<Boolean> cir) {
 		if (Liquamentum.isFrozen(Minecraft.getInstance())) {
 			if (Minecraft.getInstance().screen != null) {
 				if (!Minecraft.getInstance().screen.isInGameUi()) cir.setReturnValue(false);

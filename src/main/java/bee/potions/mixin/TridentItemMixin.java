@@ -11,17 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(TridentItem.class)
 public abstract class TridentItemMixin {
 
-    @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"), method = "releaseUsing")
+    // combined "returntrue" to "isInWaterOrRain"
+    @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"), method = {"releaseUsing","use"})
     private boolean isInWaterOrRain(boolean original) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            if (player.hasEffect(LiquamentumEffects.RAIN_BLESSING)) return true;
-        }
-        return original;
-    }
-
-    @ModifyExpressionValue(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;isInWaterOrRain()Z"), method = "use")
-    private boolean returntrue(boolean original) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.hasEffect(LiquamentumEffects.RAIN_BLESSING)) return true;
