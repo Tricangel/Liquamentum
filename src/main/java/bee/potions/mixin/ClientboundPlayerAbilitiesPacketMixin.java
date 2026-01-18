@@ -12,18 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientboundPlayerAbilitiesPacket.class)
 public abstract class ClientboundPlayerAbilitiesPacketMixin {
 
-    @Inject(at = @At("HEAD"), method = "canFly", cancellable = true)
-    private void waw(CallbackInfoReturnable<Boolean> cir) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            if (player.hasEffect(LiquamentumEffects.FLYING)) {
-                cir.setReturnValue(true);
-            }
-        }
-    }
-
-    @Inject(at = @At("HEAD"), method = "isFlying", cancellable = true)
-    private void wawa(CallbackInfoReturnable<Boolean> cir) {
+    // combined "waw" and "wawa" (awesome names) to "wawWithoutFly"
+    @Inject(at = @At("HEAD"), method = {"canFly","isFlying"}, cancellable = true)
+    private void wawWithoutFly(CallbackInfoReturnable<Boolean> cir) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.hasEffect(LiquamentumEffects.FLYING)) {
