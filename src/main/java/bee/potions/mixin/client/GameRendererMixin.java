@@ -17,7 +17,7 @@ public abstract class GameRendererMixin {
 	@Inject(at = @At("HEAD"), method = "getDarkenWorldAmount", cancellable = true)
 	private void lowerLight(float f, CallbackInfoReturnable<Float> cir) {
 		if (Minecraft.getInstance().player != null) {
-			if (Liquamentum.isFrozen(Minecraft.getInstance()) && Minecraft.getInstance().player.hasEffect(LiquamentumEffects.FATIGUED)) {
+			if (Liquamentum.isClientFrozen(Minecraft.getInstance()) && Minecraft.getInstance().player.hasEffect(LiquamentumEffects.FATIGUED)) {
 				cir.setReturnValue(1.5f);
 			}
 		}

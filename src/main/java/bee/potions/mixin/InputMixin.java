@@ -14,7 +14,7 @@ public abstract class InputMixin {
 	// combined "cancelForward", "cancelBackward", "cancelLeft", "cancelRight", cancelJump" and "cancelShift" to "cancelMovement"
 	@Inject(at = @At("HEAD"), method = {"forward","backward","left","right","jump","shift"}, cancellable = true)
 	private void cancelMovement(CallbackInfoReturnable<Boolean> cir) {
-		if (Liquamentum.isFrozen(Minecraft.getInstance()))
+		if (Liquamentum.isClientFrozen(Minecraft.getInstance()))
 			cir.setReturnValue(false);
 	}
 }

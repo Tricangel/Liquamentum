@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class ClientboundPlayerAbilitiesPacketMixin {
 
     // combined "waw" and "wawa" (awesome names) to "wawWithoutFly"
+
+    // should really delete this, actually doesn't do what i want
     @Inject(at = @At("HEAD"), method = {"canFly","isFlying"}, cancellable = true)
     private void wawWithoutFly(CallbackInfoReturnable<Boolean> cir) {
         LocalPlayer player = Minecraft.getInstance().player;

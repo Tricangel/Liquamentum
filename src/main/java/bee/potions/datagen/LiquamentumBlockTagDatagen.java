@@ -18,12 +18,12 @@ public class LiquamentumBlockTagDatagen extends FabricTagProvider.BlockTagProvid
     protected void addTags(HolderLookup.Provider provider) {
 
 
-        valueLookupBuilder(LiquamentumTags.ROOTS_APPLY_WHEN_ON)
-                .forceAddTag(BlockTags.DIRT)
-                .add(Blocks.MOSS_BLOCK)
-                .add(Blocks.MOSS_CARPET)
-                .add(Blocks.PALE_MOSS_BLOCK)
-                .add(Blocks.PALE_MOSS_CARPET)
-                .add(Blocks.GLASS);
+//        valueLookupBuilder(LiquamentumTags.ROOTS_APPLY_WHEN_ON)
+//                .forceAddTag(BlockTags.DIRT)
+//                .add(Blocks.MOSS_BLOCK)
+//                .add(Blocks.MOSS_CARPET)
+//                .add(Blocks.PALE_MOSS_BLOCK)
+//                .add(Blocks.PALE_MOSS_CARPET)
+//                .add(Blocks.GLASS);
     }
 }

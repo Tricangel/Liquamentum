@@ -3,7 +3,6 @@
   "package": "bee.potions.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AnimalMixin",
     "BrewingStandBlockMixin",
     "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
@@ -12,6 +11,7 @@
     "LookControlMixin",
     "MobEffectInstanceMixin",
     "MobMixin",
+    "PanicGoalMixin",
     "PathNavigationMixin",
     "PlayerMixin",
     "TridentItemMixin"
@@ -23,10 +23,12 @@
     "requireAnnotations": true
   },
   "client": [
+    "client.AvatarRendererMixin",
     "client.ChatScreenMixin",
     "client.GameRendererMixin",
     "client.GuiMixin",
-    "client.ModelMixin",
+    "client.LivingEntityRendererMixin",
+    "client.MinecraftMixin",
     "client.MouseMixin"
   ]
 }

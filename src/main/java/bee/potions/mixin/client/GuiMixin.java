@@ -7,6 +7,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
@@ -29,9 +30,14 @@ public abstract class GuiMixin {
     @Shadow
     protected abstract void renderTextureOverlay(GuiGraphics guiGraphics, Identifier identifier, float f);
 
+    @Shadow
+    @Final
+    private ChatComponent chat;
+
     @Inject(at = @At("HEAD"), method = "renderHearts", cancellable = true)
     private void cancelRendering(GuiGraphics guiGraphics, Player player, int i, int j, int k, int l, float f, int m, int n, int o, boolean bl, CallbackInfo ci) {
-        if (player.hasEffect(LiquamentumEffects.NUMBNESS) || player.hasEffect(LiquamentumEffects.ARSONIST)) {
+        if (player.hasEffect(LiquamentumEffects.NUMBNESS)/* || player.hasEffect(LiquamentumEffects.ARSONIST)*/) {
+            //will fix this later when im bothered
             Identifier heartType = null;
             if (player.hasEffect(LiquamentumEffects.NUMBNESS)) heartType = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/numbness");
             if (player.hasEffect(LiquamentumEffects.ARSONIST)) heartType = Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "hud/heart/arsonist");
@@ -52,8 +58,8 @@ public abstract class GuiMixin {
     @Inject(at = @At("HEAD"), method = "renderChat", cancellable = true)
     private void cancelChat(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player != null) {
-            if ((player.hasEffect(LiquamentumEffects.MUTE) && !player.isCreative() && !player.isSpectator())) {
+        if (player != null && !this.chat.isChatFocused()) {
+            if ((player.hasEffect(LiquamentumEffects.DEAF) && !player.isCreative() && !player.isSpectator())) {
                 ci.cancel();
             }
         }

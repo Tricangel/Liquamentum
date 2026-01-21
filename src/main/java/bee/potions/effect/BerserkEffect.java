@@ -21,10 +21,20 @@ public class BerserkEffect extends MobEffect {
         if (moreDamageGiven != null) {
             moreDamageGiven.addTransientModifier(new AttributeModifier(
                     Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "attack_damage_increase"),
-                    2,
+                    i + 2,
                     AttributeModifier.Operation.ADD_VALUE
 
             ));
         }
     }
+
+    @Override
+    public void removeAttributeModifiers(AttributeMap attributeMap) {
+        super.removeAttributeModifiers(attributeMap);
+        AttributeInstance attribute = attributeMap.getInstance(Attributes.ATTACK_DAMAGE);
+        if (attribute != null) {
+            attribute.removeModifier(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "attack_damage_increase"));
+        }
+    }
+
 }

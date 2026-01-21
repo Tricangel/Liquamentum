@@ -25,6 +25,7 @@ public abstract class TridentItemMixin {
     private float lowerOverpowered(float original) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player != null) {
+            if (player.hasEffect(LiquamentumEffects.LOW_GRAVITY)) original /= 1.5f;
             if (player.hasEffect(LiquamentumEffects.RAIN_BLESSING) && !player.isInWaterOrRain()) return original / 1.6f;
         }
         return original;

@@ -27,4 +27,13 @@ public class LowerJumpEffect extends MobEffect {
             ));
         }
     }
+
+    @Override
+    public void removeAttributeModifiers(AttributeMap attributeMap) {
+        super.removeAttributeModifiers(attributeMap);
+        AttributeInstance attribute = attributeMap.getInstance(Attributes.JUMP_STRENGTH);
+        if (attribute != null) {
+            attribute.removeModifier(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "lower_jump"));
+        }
+    }
 }

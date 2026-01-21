@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(PanicGoal.class)
-public abstract class AnimalMixin {
+public abstract class PanicGoalMixin {
 
 	@Shadow @Final protected PathfinderMob mob;
 

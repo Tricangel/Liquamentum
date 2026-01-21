@@ -109,6 +109,9 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> ROCK_APPEARANCE =
             register("rock_appearance", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
+    public static final Holder<MobEffect> DEAF =
+            register("deaf", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+
 
 
 

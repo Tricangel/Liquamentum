@@ -2,15 +2,17 @@ package bee.potions.mixin;
 
 import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -50,28 +52,15 @@ public abstract class LivingEntityMixin {
 			cir.setReturnValue(false);
 		}
 
-		if (entity.hasEffect(LiquamentumEffects.IMPLOSION)) {
-			if (damageSource.is(DamageTypes.EXPLOSION) || damageSource.is(DamageTypes.PLAYER_EXPLOSION)) {
-				amount *= 4;
-			}
-		}
-
 		if (entity.hasEffect(LiquamentumEffects.ARSONIST)) {
 			if (damageSource.is(DamageTypeTags.IS_FIRE)) {
 				if (!entity.isInvulnerableTo(serverLevel, damageSource)) {
+					if (entity.hasEffect(LiquamentumEffects.BLAZING)) amount /= 4;
 					if (damageSource.is(DamageTypes.IN_FIRE)) {
 						amount /= 32;
 					} else amount /= 4;
 					entity.heal(amount);
 					cir.setReturnValue(false);
-				}
-			}
-		}
-
-		if (entity.hasEffect(LiquamentumEffects.FIRE_VULNERABILITY)) {
-			if (damageSource.is(DamageTypeTags.IS_FIRE)) {
-				if (!entity.isInvulnerableTo(serverLevel, damageSource)) {
-					amount *= 424;
 				}
 			}
 		}
@@ -201,8 +190,14 @@ public abstract class LivingEntityMixin {
 	private void Liquamentum$getVisibilityPercent(Entity entity, CallbackInfoReturnable<Double> cir) {
 		LivingEntity livingEntity = (LivingEntity) (Object) this;
 
+
 		if (livingEntity.hasEffect(LiquamentumEffects.KIN)) {
-			cir.setReturnValue(0.2);
+			if (entity != null) {
+				EntityType<?> entityType = entity.getType();
+				if (!(entityType == EntityType.WARDEN || entityType == EntityType.WITHER || entityType == EntityType.ENDER_DRAGON || entityType == EntityType.ELDER_GUARDIAN)) {
+					cir.setReturnValue(0.0);
+				}
+			} else cir.setReturnValue(0.0);
 		}
 
 		if (livingEntity.hasEffect(LiquamentumEffects.SHINY)) {
@@ -212,13 +207,19 @@ public abstract class LivingEntityMixin {
 	}
 
 
-
 	@ModifyVariable(at = @At(value = "HEAD"), method = "hurtServer", argsOnly = true)
 	private float modifyDamageamount(float original) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		LivingEntity attackerEntity = entity.getLastAttacker();
 		if (entity != null) {
 			if (entity.hasEffect(LiquamentumEffects.BERSERK)) return original + entity.getEffect(LiquamentumEffects.BERSERK).getAmplifier() + 2;
+
+			if (entity.hasEffect(LiquamentumEffects.FIRE_VULNERABILITY)) return original * (entity.getEffect(LiquamentumEffects.FIRE_VULNERABILITY).getAmplifier() + 2);
+
+
+			if (entity.hasEffect(LiquamentumEffects.BLAZING)) {
+				return original + (entity.getEffect(LiquamentumEffects.BLAZING).getAmplifier() + 1) * 2;
+			}
 		}
 
 		if (attackerEntity instanceof LivingEntity attacker) {
@@ -226,6 +227,7 @@ public abstract class LivingEntityMixin {
 				return (float) (original + (attacker.getMaxHealth() - attacker.getHealth()) / 2.5);
 			}
 		}
+
 
 		return original;
 	}
