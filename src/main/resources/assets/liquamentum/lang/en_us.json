@@ -17,8 +17,21 @@
   "effect.liquamentum.numbness": "Numbness",
   "effect.liquamentum.invert_light": "Polarity",
   "effect.liquamentum.mute": "Mute",
-  "effect.liquamentum.rain_blessing": "Rain blessing",
+  "effect.liquamentum.rain_blessing": "Blessing of Rain",
   "effect.liquamentum.water_walking": "Waterwalker",
-  "effect.liquamentum.flying": "Gliding"
+  "effect.liquamentum.flying": "Gliding",
+  "effect.liquamentum.decay": "Decaying",
+  "effect.liquamentum.experienced": "Experienced",
+  "effect.liquamentum.fire_vulnerability": "Flammable",
+  "effect.liquamentum.hot_touch": "Incendiary",
+  "effect.liquamentum.kin": "Veiled",
+  "effect.liquamentum.low_gravity": "Weightless",
+  "effect.liquamentum.lower_jump": "Weighted",
+  "effect.liquamentum.petrified": "Petrified",
+  "effect.liquamentum.rock_appearance": "Stoneshade",
+  "effect.liquamentum.shiny": "Glowing",
+  "effect.liquamentum.sturdy": "Sturdy",
+  "effect.liquamentum.berserk": "Berserk",
+  "effect.liquamentum.deaf": "Deaf"
 
 }
