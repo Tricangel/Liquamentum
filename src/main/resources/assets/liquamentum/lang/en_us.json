@@ -1,6 +1,5 @@
 {
   "block.liquamentum.brewing_cauldron": "Brewing Cauldron",
-  "item.liquamentum.potion_vial": "Potion Vial ",
   "effect.liquamentum.indigestion": "Indigestion",
   "effect.liquamentum.hydrophobia": "Hydrophobia",
   "effect.liquamentum.fatigued": "Fatigued",
@@ -20,7 +19,6 @@
   "effect.liquamentum.mute": "Mute",
   "effect.liquamentum.rain_blessing": "Rain blessing",
   "effect.liquamentum.water_walking": "Waterwalker",
-  "effect.liquamentum.flying": "Gliding",
+  "effect.liquamentum.flying": "Gliding"
 
-  "item.liquamentum.potion_vial.tooltip": "Is throwable: %1$s"
 }
