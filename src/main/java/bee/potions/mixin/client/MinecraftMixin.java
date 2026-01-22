@@ -1,17 +1,13 @@
 package bee.potions.mixin.client;
 
-import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
@@ -21,6 +17,7 @@ public abstract class MinecraftMixin {
 		if (Minecraft.getInstance().player != null) {
 			Player player = Minecraft.getInstance().player;
 			if ((player.hasEffect(LiquamentumEffects.DEAF) && !player.isCreative() && !player.isSpectator())) {
+
 				ci.cancel();
 			}
 		}

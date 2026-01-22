@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "liquamentum:item/potion_vial",
+    "tints": [
+      {
+        "type": "liquamentum:color",
+        "color": 0
+      }
+    ]
+  }
+}

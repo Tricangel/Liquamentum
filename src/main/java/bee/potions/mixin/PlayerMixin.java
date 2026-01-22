@@ -2,8 +2,6 @@ package bee.potions.mixin;
 
 import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

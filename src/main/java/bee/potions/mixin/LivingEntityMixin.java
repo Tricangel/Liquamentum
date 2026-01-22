@@ -4,7 +4,6 @@ import bee.potions.Liquamentum;
 import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,7 +11,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.warden.Warden;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -25,6 +24,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Random;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
@@ -73,6 +74,13 @@ public abstract class LivingEntityMixin {
 
 			if (attacker.hasEffect(LiquamentumEffects.HOT_TOUCH)) {
 				entity.igniteForSeconds(2);
+			}
+
+			if (attacker instanceof Player player) {
+				if (player.hasEffect(LiquamentumEffects.SAITIATED))
+					if (Random.from(new Random()).nextInt(0, 3) == 0) {
+						player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() + 1);
+					}
 			}
 
 		}
@@ -186,6 +194,15 @@ public abstract class LivingEntityMixin {
 		}
 	}
 
+	@Inject(at = @At("HEAD"), method = "heal", cancellable = true)
+	private void Liquamentum$nohealing(float f, CallbackInfo ci) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+
+		if (entity.hasEffect(LiquamentumEffects.ANASTHETIC)) {
+			ci.cancel();
+		}
+	}
+
 	@Inject(at = @At("HEAD"), method = "getVisibilityPercent", cancellable = true)
 	private void Liquamentum$getVisibilityPercent(Entity entity, CallbackInfoReturnable<Double> cir) {
 		LivingEntity livingEntity = (LivingEntity) (Object) this;
@@ -201,6 +218,10 @@ public abstract class LivingEntityMixin {
 		}
 
 		if (livingEntity.hasEffect(LiquamentumEffects.SHINY)) {
+			cir.setReturnValue(2.0);
+		}
+
+		if (livingEntity.hasEffect(LiquamentumEffects.ANGERS_HOSTILE)) {
 			cir.setReturnValue(2.0);
 		}
 

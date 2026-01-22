@@ -66,6 +66,28 @@ public class OreEffects {
 
     public static List<Holder<MobEffect>> oreNegativeEffects = List.of(
             MobEffects.INSTANT_DAMAGE,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+
             MobEffects.MINING_FATIGUE
     );
 }

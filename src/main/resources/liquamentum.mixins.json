@@ -3,6 +3,7 @@
   "package": "bee.potions.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractThrownPotionMixin",
     "BrewingStandBlockMixin",
     "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
@@ -14,6 +15,7 @@
     "PanicGoalMixin",
     "PathNavigationMixin",
     "PlayerMixin",
+    "PotionContentsMixin",
     "TridentItemMixin"
   ],
   "injectors": {
@@ -23,6 +25,7 @@
     "requireAnnotations": true
   },
   "client": [
+    "InventoryMixin",
     "client.AvatarRendererMixin",
     "client.ChatScreenMixin",
     "client.GameRendererMixin",

@@ -1,15 +1,9 @@
 package bee.potions;
 
-import bee.potions.registry.LiquamentumBlockEntities;
-import bee.potions.registry.LiquamentumBlocks;
-import bee.potions.registry.LiquamentumEffects;
+import bee.potions.registry.*;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
@@ -26,23 +20,24 @@ public class Liquamentum implements ModInitializer {
 		LiquamentumBlocks.init();
 		LiquamentumBlockEntities.init();
 		LiquamentumEffects.init();
-
+		LiquamentumItems.init();
+		LiquamentumComponents.init();
 	}
 
 
 	public static boolean isClientFrozen(Minecraft minecraft) {
 		LocalPlayer player = minecraft.player;
 		if (player != null) {
-			return (player.hasEffect(LiquamentumEffects.FATIGUED) || player.hasEffect(LiquamentumEffects.PETRIFIED) && !player.isCreative() && !player.isSpectator());
+			return ((player.hasEffect(LiquamentumEffects.FATIGUED) || player.hasEffect(LiquamentumEffects.PETRIFIED)) && !player.isCreative() && !player.isSpectator());
 		} else return false;
 	}
 
 	public static boolean isFrozen(LivingEntity livingEntity) {
 		if (livingEntity != null) {
 			if (livingEntity instanceof Player player) {
-				return (player.hasEffect(LiquamentumEffects.FATIGUED) || player.hasEffect(LiquamentumEffects.PETRIFIED) && !player.isCreative() && !player.isSpectator());
+				return ((player.hasEffect(LiquamentumEffects.FATIGUED) || player.hasEffect(LiquamentumEffects.PETRIFIED)) && !player.isCreative() && !player.isSpectator());
 			} else {
-				return (livingEntity.hasEffect(LiquamentumEffects.FATIGUED) || livingEntity.hasEffect(LiquamentumEffects.PETRIFIED) && !livingEntity.isSpectator());
+				return ((livingEntity.hasEffect(LiquamentumEffects.FATIGUED) || livingEntity.hasEffect(LiquamentumEffects.PETRIFIED)) && !livingEntity.isSpectator());
 			}
 		} else return false;
 	}

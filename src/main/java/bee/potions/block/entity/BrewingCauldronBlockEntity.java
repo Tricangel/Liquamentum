@@ -5,11 +5,13 @@ import bee.potions.ingredienttype.IngredientTypes;
 import bee.potions.ingredienttype.OreEffects;
 import bee.potions.ingredienttype.RockEffects;
 import bee.potions.registry.LiquamentumBlockEntities;
+import bee.potions.registry.LiquamentumEffects;
 import bee.potions.registry.LiquamentumTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -21,8 +23,10 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -30,7 +34,9 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable {
     private final NonNullList<ItemStack> ingredients;
@@ -47,7 +53,14 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                 for (int i = 0; i < ingredients.size(); i++) {
                     if (ingredients.get(i).isEmpty()) {
 
-                        if (!ingredients.getFirst().isEmpty()) {
+                        if (ingredients.getFirst().isEmpty()) {
+                            if (itemStack.is(LiquamentumTags.BASE_INGREDIENT)) {
+                                ingredients.set(i, itemStack.consumeAndReturn(1, player));
+                                setChanged();
+                                addedIngredient = true;
+                            }
+
+                        } else {
                             if (ingredients.getFirst().is(LiquamentumTags.FLOWER_TYPE)) {
                                 if (itemStack.is(LiquamentumTags.FLOWER_TYPE)) {
                                     ingredients.set(i, itemStack.consumeAndReturn(1, player));
@@ -59,19 +72,11 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                                 setChanged();
                                 addedIngredient = true;
                             }
-                        } else {
-                            if (itemStack.is(LiquamentumTags.BASE_INGREDIENT)) {
-                                ingredients.set(i, itemStack.consumeAndReturn(1, player));
-                                setChanged();
-                                addedIngredient = true;
-                            }
+
                         }
 
                         if (addedIngredient) {
                             for (int j = 0; j < 30; j++) {
-                                float x = pos.getX() + 0.5f;
-                                float y = pos.getX() + 1.5f;
-                                float z = pos.getX() + 0.5f;
                                 level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, pos.getX() + .5f, pos.getY() + .5f, pos.getZ() + .5f, 0.1, 0.1, 0.1    );
                             }
                             level.playLocalSound(player, SoundEvents.BUBBLE_POP, SoundSource.BLOCKS, 15, 1);
@@ -91,6 +96,21 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
 
 
         return null;
+    }
+
+    public ItemStack applyEffects(ItemStack stack) {
+        List<MobEffectInstance> effects = new ArrayList<>();
+
+        for (ItemStack ingredient : ingredients) {
+            if (!ingredient.isEmpty()) {
+                effects.add(new MobEffectInstance(getPositiveEffect(ingredient), 12232323, 0));
+                effects.add(new MobEffectInstance(getNegativeEffect(ingredient), 124343243, 0));
+            }
+        }
+
+        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.empty(), effects, Optional.empty()));
+
+        return stack;
     }
 
 
@@ -123,7 +143,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         RockEffects rockEffects = new RockEffects();
         OreEffects oreEffects = new OreEffects();
 
-        Map<IngredientTypes,  Holder<MobEffect>> POSITIVE_EFFECT_POOL = Map.of(
+        /*Map<IngredientTypes,  Holder<MobEffect>> POSITIVE_EFFECT_POOL = Map.of(
                 IngredientTypes.ROCK, rockEffects.getPositiveEffect(stack),
                 IngredientTypes.ORE, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.NATURE, oreEffects.getPositiveEffect(stack),
@@ -134,16 +154,17 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                 IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.END, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
-        );
+        );*/
 
-        return POSITIVE_EFFECT_POOL.get(getIngredientType(stack));
+        //return POSITIVE_EFFECT_POOL.get(getIngredientType(stack));
+        return LiquamentumEffects.MUTE;
     }
 
     public static Holder<MobEffect> getNegativeEffect(ItemStack stack) {
         RockEffects rockEffects = new RockEffects();
         OreEffects oreEffects = new OreEffects();
 
-        Map<IngredientTypes,  Holder<MobEffect>> NEGATIVE_EFFECT_POOL = Map.of(
+        /*Map<IngredientTypes,  Holder<MobEffect>> NEGATIVE_EFFECT_POOL = Map.of(
                 IngredientTypes.ROCK, rockEffects.getPositiveEffect(stack),
                 IngredientTypes.ORE, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.NATURE, oreEffects.getPositiveEffect(stack),
@@ -154,9 +175,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                 IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.END, oreEffects.getPositiveEffect(stack),
                 IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
-        );
+        );*/
 
-        return NEGATIVE_EFFECT_POOL.get(getIngredientType(stack));
+        //return NEGATIVE_EFFECT_POOL.get(getIngredientType(stack));
+        return LiquamentumEffects.MUTE;
     }
 
     public NonNullList<ItemStack> getIngredients() {

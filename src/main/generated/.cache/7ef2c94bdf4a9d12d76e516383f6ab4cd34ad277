@@ -2,6 +2,7 @@
 fb1c9a2dd96b5472220f52e43ca161c1e3a7b219 data/liquamentum/tags/item/base_ingredient.json
 540489e371218f31ec136e017013de55b7347a63 data/liquamentum/tags/item/boss_type.json
 ca1f24832d516d535ca28caf1800657e43c34db8 data/liquamentum/tags/item/brewable.json
+0fb95f05ff09f293fa8cd47731f0b6955b32a55d data/liquamentum/tags/item/burns_in_hands.json
 27c0882cbc16825acf53cd6150a4b4eae7e323ec data/liquamentum/tags/item/crop_type.json
 53f642d0b8fb8a956696e01c6aeead53235d1757 data/liquamentum/tags/item/end_type.json
 c0e4a89e4eb6fb4a9438410e8676bf8d85a5b885 data/liquamentum/tags/item/fire_type.json

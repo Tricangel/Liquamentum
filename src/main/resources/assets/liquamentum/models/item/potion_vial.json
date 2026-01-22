@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "liquamentum:item/potion_vial_overlay",
+    "layer1": "liquamentum:item/potion_vial"
+  }
+}

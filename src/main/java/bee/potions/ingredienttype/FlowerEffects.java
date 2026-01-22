@@ -1,5 +1,6 @@
 package bee.potions.ingredienttype;
 
+import bee.potions.registry.LiquamentumEffects;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class NatureEffects {
+public class FlowerEffects {
 
 
     private Map<Item, Holder<MobEffect>> positiveEffects = Map.ofEntries(
@@ -94,7 +95,40 @@ public class NatureEffects {
     );
 
     public static List<Holder<MobEffect>> natureNegativeEffects = List.of(
-            MobEffects.NAUSEA,
+            LiquamentumEffects.MUTE,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
+            MobEffects.SLOWNESS,
             MobEffects.SLOWNESS,
             MobEffects.HUNGER
     );

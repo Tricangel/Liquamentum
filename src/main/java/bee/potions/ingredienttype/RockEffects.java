@@ -85,7 +85,36 @@ public class RockEffects {
 
     public static List<Holder<MobEffect>> rockNegativeEffects = List.of(
             MobEffects.INSTANT_DAMAGE,
-            MobEffects.MINING_FATIGUE
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE,
+            MobEffects.INSTANT_DAMAGE
     );
 
     public static List<Holder<MobEffect>> getRockNegativeEffects() {

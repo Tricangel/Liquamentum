@@ -5,7 +5,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 
 public class LiquamentumTags {
 
@@ -25,6 +24,8 @@ public class LiquamentumTags {
     public static final TagKey<Item> SKY_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "sky_type"));
     public static final TagKey<Item> END_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "end_type"));
     public static final TagKey<Item> BOSS_TYPE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "boss_type"));
+
+    public static final TagKey<Item> BURNS_IN_HANDS = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "burns_in_hands"));
 
     //public static final TagKey<Block> ROOTS_APPLY_WHEN_ON = TagKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "roots_apply_when_on"));
     //moved to all blocks

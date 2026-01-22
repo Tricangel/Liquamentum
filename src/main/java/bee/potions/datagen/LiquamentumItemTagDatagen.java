@@ -18,6 +18,21 @@ public class LiquamentumItemTagDatagen extends FabricTagProvider.ItemTagProvider
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
+        valueLookupBuilder(LiquamentumTags.BURNS_IN_HANDS)
+                .forceAddTag(ItemTags.WOODEN_BUTTONS)
+                .forceAddTag(ItemTags.WOODEN_DOORS)
+                .forceAddTag(ItemTags.WOODEN_FENCES)
+                .forceAddTag(ItemTags.WOODEN_SHELVES)
+                .forceAddTag(ItemTags.WOODEN_SLABS)
+                .forceAddTag(ItemTags.WOODEN_PRESSURE_PLATES)
+                .forceAddTag(ItemTags.WOODEN_STAIRS)
+                .forceAddTag(ItemTags.WOODEN_TOOL_MATERIALS)
+                .forceAddTag(ItemTags.WOODEN_TRAPDOORS)
+                .forceAddTag(ItemTags.LOGS_THAT_BURN)
+                .forceAddTag(ItemTags.LEAVES);
+
+
+
         valueLookupBuilder(LiquamentumTags.BASE_INGREDIENT)
                 .forceAddTag(LiquamentumTags.FLOWER_TYPE)
                 .add(Items.NETHER_WART)

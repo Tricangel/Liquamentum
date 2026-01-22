@@ -110,7 +110,24 @@ public class LiquamentumEffects {
             register("rock_appearance", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
 
     public static final Holder<MobEffect> DEAF =
-            register("deaf", new EmptyEffect(MobEffectCategory.BENEFICIAL, 123));
+            register("deaf", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> ANGERS_HOSTILE =
+            register("angers_hostile", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> SAITIATED =
+            register("saitiated", new EmptyEffect(MobEffectCategory.BENEFICIAL, 1253325251));
+
+    public static final Holder<MobEffect> CAUTERIZED =
+            register("cauterized", new CauterizedEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> PYROTRAIL =
+            register("pyrotrail", new PyrotrailEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> ANASTHETIC =
+            register("anasthetic", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+
 
 
 
