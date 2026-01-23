@@ -19,13 +19,14 @@ public class LiquamentumClient implements ClientModInitializer {
         ItemTintSources.ID_MAPPER.put(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "color"), PotionVialTintSource.MAP_CODEC);
 
 
-        /*ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipFlag, list) -> {
-            if (!itemStack.is(LiquamentumItems.POTION_VIAL)) return;
+        ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipFlag, list) -> {
 
             if (itemStack.get(LiquamentumComponents.CAN_BE_THROWN) == null) return;
-            String tooltip = String.valueOf(itemStack.get(LiquamentumComponents.CAN_BE_THROWN));
-            list.add(Component.translatable("item.liquamentum.potion_vial.tooltip", tooltip));
-        });*/
+            if (itemStack.get(LiquamentumComponents.CAN_BE_THROWN)) {
+
+                list.add(Component.translatable("item.liquamentum.potion_vial.tooltip"));
+            }
+        });
 
 
 

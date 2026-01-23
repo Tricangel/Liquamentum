@@ -14,7 +14,7 @@ import java.util.function.Function;
 public class LiquamentumItems {
 
 
-    public static final Item POTION_VIAL = register("potion_vial", PotionVialItem::new, new Item.Properties().durability(4));
+    public static final Item POTION_VIAL = register("potion_vial", PotionVialItem::new, new Item.Properties().durability(4).component(LiquamentumComponents.CAN_BE_THROWN, false));
 
     public static void init() {}
 

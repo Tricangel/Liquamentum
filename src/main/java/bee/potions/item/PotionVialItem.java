@@ -1,8 +1,10 @@
 package bee.potions.item;
 
 import bee.potions.block.entity.BrewingCauldronBlockEntity;
+import bee.potions.packet.PotionVialClickC2SPayload;
 import bee.potions.registry.LiquamentumComponents;
 import bee.potions.registry.LiquamentumItems;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -21,11 +23,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownLingeringPotion;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -53,6 +58,18 @@ public class PotionVialItem extends Item {
 
 
     @Override
+    public boolean overrideOtherStackedOnMe(ItemStack itemStack, ItemStack itemStack2, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
+        if (clickAction == ClickAction.SECONDARY) {
+            itemStack.set(LiquamentumComponents.CAN_BE_THROWN, !itemStack.getOrDefault(LiquamentumComponents.CAN_BE_THROWN, false));
+            if (player.level().isClientSide()) {
+                player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 1, 1);
+            }
+            return true;
+        }
+        return super.overrideOtherStackedOnMe(itemStack, itemStack2, slot, clickAction, player, slotAccess);
+    }
+
+    @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Level level = useOnContext.getLevel();
         Player player = useOnContext.getPlayer();
@@ -73,8 +90,8 @@ public class PotionVialItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack stack = player.getItemInHand(interactionHand);
         if (stack.get(DataComponents.POTION_CONTENTS) == null) return InteractionResult.FAIL;
-        //if (stack.get(LiquamentumComponents.CAN_BE_THROWN) == null) return InteractionResult.FAIL;
-        if (/*!stack.get(LiquamentumComponents.CAN_BE_THROWN)*/ player.isCrouching()) {
+        if (stack.get(LiquamentumComponents.CAN_BE_THROWN) == null) return InteractionResult.FAIL;
+        if (!stack.get(LiquamentumComponents.CAN_BE_THROWN)) {
 
             player.startUsingItem(interactionHand);
             return InteractionResult.FAIL;

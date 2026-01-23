@@ -25,7 +25,6 @@
     "requireAnnotations": true
   },
   "client": [
-    "InventoryMixin",
     "client.AvatarRendererMixin",
     "client.ChatScreenMixin",
     "client.GameRendererMixin",

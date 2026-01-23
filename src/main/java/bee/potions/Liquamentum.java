@@ -1,11 +1,16 @@
 package bee.potions;
 
+import bee.potions.packet.PotionVialClickC2SPayload;
 import bee.potions.registry.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.MouseHandler;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +27,17 @@ public class Liquamentum implements ModInitializer {
 		LiquamentumEffects.init();
 		LiquamentumItems.init();
 		LiquamentumComponents.init();
+
+		PayloadTypeRegistry.playC2S().register(PotionVialClickC2SPayload.ID, PotionVialClickC2SPayload.CODEC);
+
+		ServerPlayNetworking.registerGlobalReceiver(PotionVialClickC2SPayload.ID, ((potionVialClickC2SPayload, context) -> {
+			ItemStack stack = context.player().getInventory().getItem(potionVialClickC2SPayload.index());
+			stack.set(LiquamentumComponents.CAN_BE_THROWN, !stack.get(LiquamentumComponents.CAN_BE_THROWN));
+			context.player().disconnect();
+
+		}));
+
+
 	}
 
 

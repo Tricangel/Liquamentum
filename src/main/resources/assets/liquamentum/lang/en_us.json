@@ -1,5 +1,7 @@
 {
   "block.liquamentum.brewing_cauldron": "Brewing Cauldron",
+  "item.liquamentum.potion_vial": "Potion Vial",
+  "item.liquamentum.potion_vial.tooltip": "Can be thrown",
   "effect.liquamentum.indigestion": "Indigestion",
   "effect.liquamentum.hydrophobia": "Hydrophobia",
   "effect.liquamentum.fatigued": "Fatigued",
