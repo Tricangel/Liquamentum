@@ -127,6 +127,18 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> ANASTHETIC =
             register("anasthetic", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
 
+    public static final Holder<MobEffect> HOPPING =
+            register("hopping", new HoppingEffect(MobEffectCategory.BENEFICIAL, 1253325251));
+
+    public static final Holder<MobEffect> GRAVITATED =
+            register("gravitated", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> FRAGILE =
+            register("fragile", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> FIREPROOF =
+            register("fireproof", new EmptyEffect(MobEffectCategory.BENEFICIAL, 1253325251));
+
 
 
 

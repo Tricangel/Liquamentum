@@ -27,6 +27,7 @@ public class Liquamentum implements ModInitializer {
 		LiquamentumEffects.init();
 		LiquamentumItems.init();
 		LiquamentumComponents.init();
+		LiquamentumAttributes.init();
 
 		PayloadTypeRegistry.playC2S().register(PotionVialClickC2SPayload.ID, PotionVialClickC2SPayload.CODEC);
 

@@ -1,7 +1,10 @@
 package bee.potions.mixin;
 
 import bee.potions.Liquamentum;
+import bee.potions.registry.LiquamentumAttributes;
 import bee.potions.registry.LiquamentumEffects;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -64,6 +67,11 @@ public abstract class PlayerMixin {
 		Player player = (Player) (Object) this;
 		if (player.hasEffect(LiquamentumEffects.EXPERIENCED)) return value * 3;
 		return value;
+	}
+
+	@ModifyReturnValue(method = "createAttributes", at = @At("RETURN"))
+	private static AttributeSupplier.Builder doubleJump(AttributeSupplier.Builder original) {
+		return original.add(LiquamentumAttributes.DOUBLE_JUMP);
 	}
 
 

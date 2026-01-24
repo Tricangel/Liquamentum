@@ -4,10 +4,11 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractThrownPotionMixin",
+    "BaseFireBlockMixin",
     "BrewingStandBlockMixin",
-    "ClientboundPlayerAbilitiesPacketMixin",
     "EntityMixin",
     "InputMixin",
+    "LavaFluidMixin",
     "LivingEntityMixin",
     "LookControlMixin",
     "MobEffectInstanceMixin",

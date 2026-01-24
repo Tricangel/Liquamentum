@@ -1,9 +1,16 @@
 package bee.potions.mixin;
 
 import bee.potions.Liquamentum;
+import bee.potions.registry.LiquamentumAttributes;
 import bee.potions.registry.LiquamentumEffects;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -12,6 +19,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -38,7 +47,6 @@ public abstract class LivingEntityMixin {
 
 	@Shadow
 	protected abstract double getDefaultGravity();
-
 
 	@Inject(at = @At("HEAD"), method = "hurtServer", cancellable = true)
 	private void hurtServer(ServerLevel serverLevel, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {
@@ -97,7 +105,29 @@ public abstract class LivingEntityMixin {
 			}
 		}
 
+		if (entity.hasEffect(LiquamentumEffects.FLYING)) {
+			Level level = entity.level();
+			boolean isGroundWithinTenBlocks = false;
+			boolean isGroundWithinThreeBlocks = false;
+
+			for (int j = 0; j < 10; j++) {
+				if (!level.getBlockState(entity.blockPosition().below(j)).isAir()) {
+					if (j < 4) isGroundWithinThreeBlocks = true;
+					else isGroundWithinTenBlocks = true;
+					break;
+				}
+			}
+
+			if (isGroundWithinTenBlocks && !isGroundWithinThreeBlocks && !entity.isCrouching()) {
+				Vec3 movement = entity.getDeltaMovement();
+				if (movement.y() < 0) {
+					entity.setDeltaMovement(movement.x(), 0, movement.z());
+				}
+			}
+		}
+
 	}
+
 
 
 	@Inject(at = @At("HEAD"), method = "jumpInLiquid", cancellable = true)
@@ -154,7 +184,7 @@ public abstract class LivingEntityMixin {
 	@Inject(at = @At("HEAD"), method = "canStandOnFluid", cancellable = true)
 	private void Liquamentum$canStandOnFluid(FluidState fluidState, CallbackInfoReturnable<Boolean> cir) {
 		LivingEntity entity = (LivingEntity) (Object) this;
-		if (entity.hasEffect(LiquamentumEffects.LAVA_WALKING)) {
+		if (entity.hasEffect(LiquamentumEffects.LAVA_WALKING) || entity.hasEffect(LiquamentumEffects.FIREPROOF)) {
 			if (fluidState.is(Fluids.LAVA)) {
 				cir.setReturnValue(true);
 			}
@@ -203,6 +233,55 @@ public abstract class LivingEntityMixin {
 		}
 	}
 
+
+	@Inject(at = @At(value = "TAIL"), method = "aiStep", cancellable = true)
+	private void Liquamentum$resetJumps(CallbackInfo ci) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity instanceof Player player) {
+			if (entity.onGround()) {
+				player.setAttached(LiquamentumAttributes.USED_JUMPS, 0);
+			}
+
+		}
+	}
+
+	@ModifyReturnValue(at = @At("RETURN"), method = "calculateFallDamage")
+	private int Liquamentum$noFlyFallDamage(int original) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity.hasEffect(LiquamentumEffects.FLYING)) return 0;
+		if (entity.hasEffect(LiquamentumEffects.GRAVITATED)) return original * 2;
+		return original;
+	}
+
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V"), method = "aiStep", cancellable = true)
+	private void Liquamentum$decrementJumps(CallbackInfo ci, @Share("doubleJumped") LocalBooleanRef doubleJumped) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity instanceof Player player) {
+
+			if (doubleJumped.get()) {
+				player.setAttached(LiquamentumAttributes.USED_JUMPS, player.getAttachedOrSet(LiquamentumAttributes.USED_JUMPS, 0) + 1);
+			}
+		}
+	}
+
+	@ModifyExpressionValue(at = @At(value = "INVOKE:LAST", target = "Lnet/minecraft/world/entity/LivingEntity;onGround()Z"), method = "aiStep")
+	private boolean Liquamentum$allowDoubleJump(boolean original, @Share("doubleJumped") LocalBooleanRef doubleJumped) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity instanceof Player player) {
+			if (entity.hasEffect(LiquamentumEffects.HOPPING) && !original) {
+
+				doubleJumped.set(true);
+				if (!player.level().isClientSide()) {
+					player.playSound(SoundEvents.WIND_CHARGE_BURST.value(), 1, 1);
+				}
+				return player.getAttachedOrSet(LiquamentumAttributes.USED_JUMPS, 0) < player.getAttributeValue(LiquamentumAttributes.DOUBLE_JUMP);
+			}
+			if (player.hasEffect(LiquamentumEffects.FLYING)) return true;
+		}
+		return original;
+	}
+
+
 	@Inject(at = @At("HEAD"), method = "getVisibilityPercent", cancellable = true)
 	private void Liquamentum$getVisibilityPercent(Entity entity, CallbackInfoReturnable<Double> cir) {
 		LivingEntity livingEntity = (LivingEntity) (Object) this;
@@ -237,7 +316,6 @@ public abstract class LivingEntityMixin {
 
 			if (entity.hasEffect(LiquamentumEffects.FIRE_VULNERABILITY)) return original * (entity.getEffect(LiquamentumEffects.FIRE_VULNERABILITY).getAmplifier() + 2);
 
-
 			if (entity.hasEffect(LiquamentumEffects.BLAZING)) {
 				return original + (entity.getEffect(LiquamentumEffects.BLAZING).getAmplifier() + 1) * 2;
 			}
@@ -247,6 +325,9 @@ public abstract class LivingEntityMixin {
 			if (attacker.hasEffect(LiquamentumEffects.RAGE)) {
 				return (float) (original + (attacker.getMaxHealth() - attacker.getHealth()) / 2.5);
 			}
+
+			if (entity.hasEffect(LiquamentumEffects.FRAGILE) && attacker.getMainHandItem().is(ItemTags.PICKAXES)) return original * (entity.getEffect(LiquamentumEffects.FRAGILE).getAmplifier() + 1);
+
 		}
 
 
