@@ -32,7 +32,7 @@ public class PotionVialMouseActions implements ItemSlotMouseAction {
     public void onSlotClicked(Slot slot, ClickType clickType) {
         if (true) {
             ItemStack stack = slot.getItem();
-            stack.set(LiquamentumComponents.CAN_BE_THROWN, !stack.get(LiquamentumComponents.CAN_BE_THROWN));
+            stack.set(LiquamentumComponents.THROWABLE, !stack.get(LiquamentumComponents.THROWABLE));
             PotionVialClickC2SPayload payload = new PotionVialClickC2SPayload(slot.index);
             ClientPlayNetworking.send(payload);
         }

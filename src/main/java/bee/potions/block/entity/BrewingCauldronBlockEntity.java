@@ -50,6 +50,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         BlockPos pos = this.getBlockPos();
         boolean addedIngredient = false;
         if (!itemStack.isEmpty()) {
+            // god i am rewriting this again it is way to much code for what is needed
                 for (int i = 0; i < ingredients.size(); i++) {
                     if (ingredients.get(i).isEmpty()) {
 

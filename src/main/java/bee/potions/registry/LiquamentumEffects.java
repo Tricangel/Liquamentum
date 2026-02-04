@@ -139,6 +139,15 @@ public class LiquamentumEffects {
     public static final Holder<MobEffect> FIREPROOF =
             register("fireproof", new EmptyEffect(MobEffectCategory.BENEFICIAL, 1253325251));
 
+    public static final Holder<MobEffect> AFTERBURN =
+            register("afterburn", new EmptyEffect(MobEffectCategory.HARMFUL, 1253325251));
+
+    public static final Holder<MobEffect> SERENITY =
+            register("serenity", new EmptyEffect(MobEffectCategory.BENEFICIAL, 1253325251));
+
+    public static final Holder<MobEffect> BIOPHILIA =
+            register("biophilia", new EmptyEffect(MobEffectCategory.BENEFICIAL, 1253325251));
+
 
 
 

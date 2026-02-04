@@ -6,7 +6,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.MouseHandler;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +32,7 @@ public class Liquamentum implements ModInitializer {
 
 		ServerPlayNetworking.registerGlobalReceiver(PotionVialClickC2SPayload.ID, ((potionVialClickC2SPayload, context) -> {
 			ItemStack stack = context.player().getInventory().getItem(potionVialClickC2SPayload.index());
-			stack.set(LiquamentumComponents.CAN_BE_THROWN, !stack.get(LiquamentumComponents.CAN_BE_THROWN));
+			stack.set(LiquamentumComponents.THROWABLE, !stack.get(LiquamentumComponents.THROWABLE));
 			context.player().disconnect();
 
 		}));
@@ -58,5 +57,7 @@ public class Liquamentum implements ModInitializer {
 			}
 		} else return false;
 	}
+
+
 
 }
