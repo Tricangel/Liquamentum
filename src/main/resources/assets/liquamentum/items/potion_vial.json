@@ -1,12 +1,28 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "liquamentum:item/potion_vial",
-    "tints": [
-      {
-        "type": "liquamentum:color",
-        "color": 0
-      }
-    ]
+    "type": "minecraft:condition",
+    "component": "liquamentum:throwable",
+    "ignore_default": true,
+    "on_false": {
+      "type": "model",
+      "model": "liquamentum:item/potion_vial",
+      "tints": [
+        {
+          "type": "liquamentum:color",
+          "color": 0
+        }
+      ]
+    },
+    "on_true": {
+      "type": "model",
+      "model": "liquamentum:item/potion_vial_throwable",
+      "tints": [
+        {
+          "type": "liquamentum:color",
+          "color": 0
+        }
+      ]
+    },
+    "property": "minecraft:has_component"
   }
 }

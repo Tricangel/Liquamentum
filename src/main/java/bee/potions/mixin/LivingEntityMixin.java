@@ -19,7 +19,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
@@ -137,10 +136,10 @@ public abstract class LivingEntityMixin {
 			if (entity.onGround()) {
 				float f = (float) (BASE_JUMP_POWER / 1.5);
 				Vec3 vec3 = entity.getDeltaMovement();
-				entity.setDeltaMovement(vec3.x, Math.max((double)f, vec3.y), vec3.z);
+				entity.setDeltaMovement(vec3.x, Math.max(f, vec3.y), vec3.z);
 				if (entity.isSprinting()) {
 					float g = entity.getYRot() * ((float)Math.PI / 180F);
-					entity.addDeltaMovement(new Vec3((double)(-Mth.sin((double)g)) * 0.2, (double)0.0F, (double)Mth.cos((double)g) * 0.2));
+					entity.addDeltaMovement(new Vec3((double)(-Mth.sin(g)) * 0.2, 0.0F, (double)Mth.cos(g) * 0.2));
 				}
 			}
 			entity.needsSync = true;
@@ -233,8 +232,21 @@ public abstract class LivingEntityMixin {
 		}
 	}
 
+	@Inject(at = @At("HEAD"), method = "isInvulnerableTo", cancellable = true)
+	private void Liquamentum$invulnerability(ServerLevel serverLevel, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+		LivingEntity entity = (LivingEntity) (Object) this;
+		if (entity.hasEffect(LiquamentumEffects.BIOPHILIA)) {
+			// im either changing this to a tag or cc in the future
+			if (damageSource.is(DamageTypes.CACTUS)) cir.setReturnValue(true);
+			if (damageSource.is(DamageTypes.SWEET_BERRY_BUSH)) cir.setReturnValue(true);
 
-	@Inject(at = @At(value = "TAIL"), method = "aiStep", cancellable = true)
+		}
+	}
+
+
+
+
+	@Inject(at = @At(value = "TAIL"), method = "aiStep")
 	private void Liquamentum$resetJumps(CallbackInfo ci) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		if (entity instanceof Player player) {
@@ -253,7 +265,7 @@ public abstract class LivingEntityMixin {
 		return original;
 	}
 
-	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V"), method = "aiStep", cancellable = true)
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;jumpFromGround()V"), method = "aiStep")
 	private void Liquamentum$decrementJumps(CallbackInfo ci, @Share("doubleJumped") LocalBooleanRef doubleJumped) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		if (entity instanceof Player player) {
@@ -307,7 +319,7 @@ public abstract class LivingEntityMixin {
 	}
 
 
-	@ModifyVariable(at = @At(value = "HEAD"), method = "hurtServer", argsOnly = true)
+	@ModifyVariable(at = @At(value = "HEAD"), method = "hurtServer", ordinal = -1, argsOnly = true)
 	private float modifyDamageamount(float original) {
 		LivingEntity entity = (LivingEntity) (Object) this;
 		LivingEntity attackerEntity = entity.getLastAttacker();
