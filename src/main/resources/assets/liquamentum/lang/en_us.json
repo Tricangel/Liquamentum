@@ -43,5 +43,8 @@
   "effect.liquamentum.fireproof": "Fireproof",
   "effect.liquamentum.fragile": "Fragile",
   "effect.liquamentum.gravitated": "Gravitated",
-  "effect.liquamentum.hopping": "Hopping"
+  "effect.liquamentum.hopping": "Hopping",
+  "effect.liquamentum.afterburn": "Afterburn",
+  "effect.liquamentum.biophilia": "Biophilia",
+  "effect.liquamentum.serenity": "Serenity"
 }
