@@ -1,8 +1,10 @@
 package bee.potions.datagen;
 
+import bee.potions.registry.LiquamentumTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.BlockTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,12 +17,5 @@ public class LiquamentumBlockTagDatagen extends FabricTagProvider.BlockTagProvid
     protected void addTags(HolderLookup.Provider provider) {
 
 
-//        valueLookupBuilder(LiquamentumTags.ROOTS_APPLY_WHEN_ON)
-//                .forceAddTag(BlockTags.DIRT)
-//                .add(Blocks.MOSS_BLOCK)
-//                .add(Blocks.MOSS_CARPET)
-//                .add(Blocks.PALE_MOSS_BLOCK)
-//                .add(Blocks.PALE_MOSS_CARPET)
-//                .add(Blocks.GLASS);
     }
 }

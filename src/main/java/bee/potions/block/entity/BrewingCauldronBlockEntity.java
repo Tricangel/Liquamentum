@@ -1,9 +1,7 @@
 package bee.potions.block.entity;
 
 import bee.potions.Liquamentum;
-import bee.potions.ingredienttype.IngredientTypes;
-import bee.potions.ingredienttype.OreEffects;
-import bee.potions.ingredienttype.RockEffects;
+
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumEffects;
 import bee.potions.registry.LiquamentumTags;
@@ -50,7 +48,7 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         BlockPos pos = this.getBlockPos();
         boolean addedIngredient = false;
         if (!itemStack.isEmpty()) {
-            // god i am rewriting this again it is way to much code for what is needed
+            // god i am rewriting this again it is way too much code for what is needed
                 for (int i = 0; i < ingredients.size(); i++) {
                     if (ingredients.get(i).isEmpty()) {
 
@@ -103,10 +101,6 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         List<MobEffectInstance> effects = new ArrayList<>();
 
         for (ItemStack ingredient : ingredients) {
-            if (!ingredient.isEmpty()) {
-                effects.add(new MobEffectInstance(getPositiveEffect(ingredient), 12232323, 0));
-                effects.add(new MobEffectInstance(getNegativeEffect(ingredient), 124343243, 0));
-            }
         }
 
         stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.empty(), effects, Optional.empty()));
@@ -114,73 +108,6 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
         return stack;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    public static IngredientTypes getIngredientType(ItemStack stack) {
-        if (stack.is(LiquamentumTags.ROCK_TYPE)) return IngredientTypes.ROCK;
-        if (stack.is(LiquamentumTags.ORE_TYPE)) return IngredientTypes.ORE;
-        if (stack.is(LiquamentumTags.FLOWER_TYPE)) return IngredientTypes.NATURE;
-        if (stack.is(LiquamentumTags.FIRE_TYPE)) return IngredientTypes.FIRE;
-        if (stack.is(LiquamentumTags.WATER_TYPE)) return IngredientTypes.WATER;
-        if (stack.is(LiquamentumTags.UNDEAD_TYPE)) return IngredientTypes.UNDEAD;
-        if (stack.is(LiquamentumTags.FLESH_TYPE)) return IngredientTypes.FLESH;
-        if (stack.is(LiquamentumTags.SKY_TYPE)) return IngredientTypes.SKY;
-        if (stack.is(LiquamentumTags.END_TYPE)) return IngredientTypes.END;
-        if (stack.is(LiquamentumTags.BOSS_TYPE)) return IngredientTypes.BOSS;
-        else return IngredientTypes.MISC;
-    }
-
-    public static Holder<MobEffect> getPositiveEffect(ItemStack stack) {
-        RockEffects rockEffects = new RockEffects();
-        OreEffects oreEffects = new OreEffects();
-
-        /*Map<IngredientTypes,  Holder<MobEffect>> POSITIVE_EFFECT_POOL = Map.of(
-                IngredientTypes.ROCK, rockEffects.getPositiveEffect(stack),
-                IngredientTypes.ORE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.NATURE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.FIRE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.WATER, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.UNDEAD, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.FLESH, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.END, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
-        );*/
-
-        //return POSITIVE_EFFECT_POOL.get(getIngredientType(stack));
-        return LiquamentumEffects.MUTE;
-    }
-
-    public static Holder<MobEffect> getNegativeEffect(ItemStack stack) {
-        RockEffects rockEffects = new RockEffects();
-        OreEffects oreEffects = new OreEffects();
-
-        /*Map<IngredientTypes,  Holder<MobEffect>> NEGATIVE_EFFECT_POOL = Map.of(
-                IngredientTypes.ROCK, rockEffects.getPositiveEffect(stack),
-                IngredientTypes.ORE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.NATURE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.FIRE, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.WATER, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.UNDEAD, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.FLESH, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.SKY, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.END, oreEffects.getPositiveEffect(stack),
-                IngredientTypes.BOSS, oreEffects.getPositiveEffect(stack)
-        );*/
-
-        //return NEGATIVE_EFFECT_POOL.get(getIngredientType(stack));
-        return LiquamentumEffects.MUTE;
-    }
 
     public NonNullList<ItemStack> getIngredients() {
         return ingredients;
