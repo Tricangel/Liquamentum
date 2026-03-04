@@ -2,7 +2,8 @@ package bee.potions.registry;
 
 import bee.potions.Liquamentum;
 import bee.potions.effect.EmptyEffect;
-import com.google.gson.Gson;
+import bee.potions.effect.ObscuredEffect;
+import bee.potions.effect.VoidDraftEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,7 +16,10 @@ public class LiquamentumEffects {
             register("example_effect", new EmptyEffect(MobEffectCategory.NEUTRAL, 12));
 
     public static final Holder<MobEffect> VOID_DRAFT =
-            register("void_draft", new EmptyEffect(MobEffectCategory.NEUTRAL, 12));
+            register("void_draft", new VoidDraftEffect(MobEffectCategory.NEUTRAL, 12));
+
+    public static final Holder<MobEffect> OBSCURED =
+            register("obscured", new ObscuredEffect(MobEffectCategory.NEUTRAL, 12));
 
 
 

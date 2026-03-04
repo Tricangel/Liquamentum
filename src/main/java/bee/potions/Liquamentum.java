@@ -21,6 +21,7 @@ public class Liquamentum implements ModInitializer {
 		LiquamentumComponents.init();
 		LiquamentumAttributes.init();
 
+
 	}
 
 }

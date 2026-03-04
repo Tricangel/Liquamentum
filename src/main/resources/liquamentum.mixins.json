@@ -15,5 +15,9 @@
     "requireAnnotations": true
   },
   "client": [
+    "AvatarRendererMixin",
+    "EntityRendererMixin",
+    "HumanoidArmorLayerMixin",
+    "LivingEntityRendererMixin"
   ]
 }
