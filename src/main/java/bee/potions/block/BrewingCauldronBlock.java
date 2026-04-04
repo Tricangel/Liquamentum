@@ -66,7 +66,6 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
         if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity && player.isCrouching() && !level.isClientSide()) {
-            System.out.println("waww");
             brewingCauldronBlockEntity.applyEffects(null, (ServerLevel) level, player);
             return InteractionResult.SUCCESS;
         }

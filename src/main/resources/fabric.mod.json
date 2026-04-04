@@ -33,6 +33,7 @@
 	],
 	"custom": {
 		"cardinal-components": [
+			"liquamentum:example",
 			"liquamentum:isobscured",
 			"liquamentum:voiddraft",
 			"liquamentum:ispetrified"

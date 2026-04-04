@@ -5,25 +5,29 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.ladysnake.cca.api.v3.component.Component;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
-public class PetrifiedComponent implements Component, AutoSyncedComponent {
+public class BooleanComponent implements Component, AutoSyncedComponent {
+    String name;
+    public BooleanComponent(String name) {
+        this.name = name;
+    }
 
-    private Boolean value = false;
+    private boolean value;
 
-    public Boolean getValue() {
+    public boolean getValue() {
         return value;
     }
 
-    public void setValue(Boolean value) {
+    public void setValue(boolean value) {
         this.value = value;
     }
 
     @Override
     public void readData(ValueInput valueInput) {
-        this.value = valueInput.getBooleanOr("isPetrified", false);
+        this.value = valueInput.getBooleanOr(name, false);
     }
 
     @Override
     public void writeData(ValueOutput valueOutput) {
-        valueOutput.putBoolean("isPetrified", getValue());
+        valueOutput.putBoolean(name, getValue());
     }
 }
