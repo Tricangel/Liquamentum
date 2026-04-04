@@ -18,9 +18,7 @@ public class LiquamentumClient implements ClientModInitializer {
 
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipFlag, list) -> {
 
-            if (itemStack.get(LiquamentumComponents.THROWABLE) == null) return;
-            if (itemStack.get(LiquamentumComponents.THROWABLE)) {
-
+            if (itemStack.has(LiquamentumComponents.THROWABLE)) {
                 list.add(Component.translatable("item.liquamentum.potion_vial.tooltip"));
             }
         });

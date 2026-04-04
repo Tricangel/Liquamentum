@@ -3,6 +3,7 @@ package bee.potions.registry;
 import bee.potions.Liquamentum;
 import bee.potions.effect.EmptyEffect;
 import bee.potions.effect.ObscuredEffect;
+import bee.potions.effect.PetrifiedEffect;
 import bee.potions.effect.VoidDraftEffect;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -17,6 +18,9 @@ public class LiquamentumEffects {
 
     public static final Holder<MobEffect> VOID_DRAFT =
             register("void_draft", new VoidDraftEffect(MobEffectCategory.NEUTRAL, 12));
+
+    public static final Holder<MobEffect> PETRIFIED =
+            register("petrified", new PetrifiedEffect(MobEffectCategory.NEUTRAL, 12));
 
     public static final Holder<MobEffect> OBSCURED =
             register("obscured", new ObscuredEffect(MobEffectCategory.NEUTRAL, 12));

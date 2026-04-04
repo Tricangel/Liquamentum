@@ -6,7 +6,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
-public class LiquamentumTags {
+public class    LiquamentumTags {
 
     public static final TagKey<Item> BREWABLE = TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "brewable"));
 

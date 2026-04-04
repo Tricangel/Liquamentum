@@ -5,6 +5,7 @@
   "mixins": [
     "AbstractThrownPotionMixin",
     "BrewingStandBlockMixin",
+    "InputMixin",
     "MobEffectInstanceMixin",
     "PotionContentsMixin"
   ],
@@ -15,9 +16,9 @@
     "requireAnnotations": true
   },
   "client": [
-    "AvatarRendererMixin",
-    "EntityRendererMixin",
-    "HumanoidArmorLayerMixin",
-    "LivingEntityRendererMixin"
+    "client.AvatarRendererMixin",
+    "client.EntityRendererMixin",
+    "client.HumanoidArmorLayerMixin",
+    "client.LivingEntityRendererMixin"
   ]
 }

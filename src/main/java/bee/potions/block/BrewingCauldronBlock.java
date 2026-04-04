@@ -3,6 +3,7 @@ package bee.potions.block;
 import bee.potions.block.entity.BrewingCauldronBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -53,7 +54,7 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity) {
+        if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity && !level.isClientSide()) {
             if (brewingCauldronBlockEntity.addIngredient(itemStack, player)) {
                 return InteractionResult.SUCCESS;
             }
@@ -64,8 +65,9 @@ public class BrewingCauldronBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
-        if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity && player.isCrouching()) {
-
+        if (level.getBlockEntity(blockPos) instanceof BrewingCauldronBlockEntity brewingCauldronBlockEntity && player.isCrouching() && !level.isClientSide()) {
+            System.out.println("waww");
+            brewingCauldronBlockEntity.applyEffects(null, (ServerLevel) level, player);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.FAIL;

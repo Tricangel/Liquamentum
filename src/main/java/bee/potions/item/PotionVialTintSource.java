@@ -10,11 +10,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public record PotionVialTintSource(int color) implements ItemTintSource {
+public record PotionVialTintSource(int colour) implements ItemTintSource {
 
     public static final MapCodec<PotionVialTintSource> MAP_CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(
-                    ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PotionVialTintSource::color)
+                    ExtraCodecs.RGB_COLOR_CODEC.fieldOf("color").forGetter(PotionVialTintSource::colour)
             ).apply(instance, PotionVialTintSource::new)
     );
 

@@ -6,22 +6,22 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ObscuredEffect extends MobEffect {
-    public ObscuredEffect(MobEffectCategory mobEffectCategory, int i) {
+public class PetrifiedEffect extends MobEffect {
+    public PetrifiedEffect(MobEffectCategory mobEffectCategory, int i) {
         super(mobEffectCategory, i);
     }
 
     @Override
     public void onEffectAdded(LivingEntity livingEntity, int i) {
 
-        LiquamentumEntityComponents.ISOBSCURED.get(livingEntity).setValue(true);
+        LiquamentumEntityComponents.ISPETRIFIED.get(livingEntity).setValue(true);
         super.onEffectAdded(livingEntity, i);
     }
 
     @Override
     public void onEffectRemoved(MobEffectInstance effectInstance, LivingEntity entity) {
 
-        LiquamentumEntityComponents.ISOBSCURED.get(entity).setValue(false);
+        LiquamentumEntityComponents.ISPETRIFIED.get(entity).setValue(false);
         super.onEffectRemoved(effectInstance, entity);
     }
 }

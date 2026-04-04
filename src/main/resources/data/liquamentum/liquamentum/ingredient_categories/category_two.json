@@ -1,0 +1,8 @@
+{
+  "ingredient_effects": [
+    "minecraft:instant_health"
+  ],
+  "ingredients": [
+    "minecraft:poppy"
+  ]
+}

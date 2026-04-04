@@ -1,4 +1,4 @@
-package bee.potions.mixin;
+package bee.potions.mixin.client;
 
 import bee.potions.registry.LiquamentumEntityComponents;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

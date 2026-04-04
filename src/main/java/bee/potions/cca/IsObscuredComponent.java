@@ -1,4 +1,4 @@
-package bee.potions.component;
+package bee.potions.cca;
 
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
