@@ -19,6 +19,7 @@ public class BooleanComponent implements Component, AutoSyncedComponent {
 
     public void setValue(boolean value) {
         this.value = value;
+
     }
 
     @Override

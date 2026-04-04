@@ -22,6 +22,7 @@ public class ComponentEffect extends MobEffect {
     public void onEffectAdded(LivingEntity entity, int i) {
 
         component.get(entity).setValue(true);
+        component.sync(entity);
         super.onEffectAdded(entity, i);
     }
 
@@ -29,6 +30,7 @@ public class ComponentEffect extends MobEffect {
     public void onEffectRemoved(MobEffectInstance effectInstance, LivingEntity entity) {
 
         component.get(entity).setValue(false);
+        component.sync(entity);
         super.onEffectRemoved(effectInstance, entity);
     }
 
