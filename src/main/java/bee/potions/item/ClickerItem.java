@@ -29,8 +29,7 @@ public class ClickerItem extends Item {
             PotionNameData potionNameData = PotionNameData.getPotionNameData(server);
             if (player.isCrouching()) {
                 player.displayClientMessage(Component.literal(potionNameData.getPotionNameMap().toString()), false);
-            }
-            potionNameData.setPotionName(List.of(MobEffects.HASTE), "wasa");
+            } else potionNameData.setPotionName(List.of(MobEffects.HASTE), "wasa");
 
         }
 

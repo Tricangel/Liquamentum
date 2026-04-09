@@ -43,7 +43,7 @@ public class PotionNameData extends SavedData {
         map.forEach((effect, string) -> potionNameData.potionNameMap.put(effect, string));
         return potionNameData;
     }
-
+//this is the line that breaks it
     public Map<List<Holder<MobEffect>>, String> pack() {
         Map<List<Holder<MobEffect>>, String> map = new HashMap<>();
         this.potionNameMap.forEach((effect, string) -> map.put(effect, string));
@@ -53,7 +53,7 @@ public class PotionNameData extends SavedData {
     private static final Codec<PotionNameData> CODEC =
             Codec.unboundedMap(MobEffect.CODEC.listOf(), Codec.STRING).fieldOf("potion_names").codec().xmap(PotionNameData::unpack, PotionNameData::pack);
     public static final SavedDataType<PotionNameData> TYPE =
-            new SavedDataType<>("potion_names", PotionNameData::new, CODEC, DataFixTypes.SAVED_DATA_MAP_DATA);
+            new SavedDataType<>("potion_names", PotionNameData::new, CODEC, null);
 
 
     //this working evades me
