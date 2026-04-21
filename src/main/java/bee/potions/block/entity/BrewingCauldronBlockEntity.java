@@ -1,8 +1,7 @@
 package bee.potions.block.entity;
 
 import bee.potions.Liquamentum;
-import bee.potions.data.PotionNameData;
-import bee.potions.ingredientEffect.IngredientCategory;
+import bee.potions.data.IngredientCategory;
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumRegistries;
 import bee.potions.registry.LiquamentumTags;
@@ -13,7 +12,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -23,9 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
