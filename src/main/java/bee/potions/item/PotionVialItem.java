@@ -128,27 +128,6 @@ public class PotionVialItem extends Item {
         return super.finishUsingItem(itemStack, level, livingEntity);
     }
 
-    @Override
-    public void hurtEnemy(ItemStack itemStack, LivingEntity livingEntity, LivingEntity livingEntity2) {
-
-        DataResult<JsonElement> result = Codec.STRING.encodeStart(JsonOps.INSTANCE, "test");
-
-        JsonElement json = result.resultOrPartial(Liquamentum.LOGGER::error).orElseThrow();
-
-        DataResult<String> result2 = Codec.STRING.parse(JsonOps.INSTANCE, json);
-
-        String string = result2.resultOrPartial(Liquamentum.LOGGER::error).orElseThrow();
-
-        if (livingEntity2 instanceof Player player) {
-            player.displayClientMessage(Component.literal(string), false);
-        }
-
-
-
-
-        super.hurtEnemy(itemStack, livingEntity, livingEntity2);
-    }
-
     protected AbstractThrownPotion createPotion(ServerLevel serverLevel, LivingEntity livingEntity, ItemStack itemStack) {
         return new ThrownLingeringPotion(serverLevel, livingEntity, itemStack);
     }

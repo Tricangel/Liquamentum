@@ -10,7 +10,7 @@ public class LiquamentumDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
-		pack.addProvider(LiquamentumItemTagDatagen::new);
+
 		pack.addProvider(LiquamentumBlockTagDatagen::new);
 	}
 }

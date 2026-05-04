@@ -1,5 +1,6 @@
 package bee.potions.item;
 
+import bee.potions.Liquamentum;
 import bee.potions.data.PotionNameData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -23,13 +24,10 @@ public class ClickerItem extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
 
-        if (level instanceof ServerLevel serverLevel) {
-
-            MinecraftServer server = serverLevel.getServer();
-            PotionNameData potionNameData = PotionNameData.getPotionNameData(server);
+        if (level instanceof ServerLevel) {
             if (player.isCrouching()) {
-                player.displayClientMessage(Component.literal(potionNameData.getPotionNameMap().toString()), false);
-            } else potionNameData.setPotionName(List.of(MobEffects.HASTE), "wasa");
+                player.sendSystemMessage(Component.literal(Liquamentum.potionNameMap.toString()));
+            } else Liquamentum.potionNameMap.put(List.of(MobEffects.HASTE), "wasa");
 
         }
 

@@ -6,6 +6,7 @@
     "AbstractThrownPotionMixin",
     "BrewingStandBlockMixin",
     "InputMixin",
+    "Lingering",
     "MobEffectInstanceMixin",
     "PotionContentsMixin"
   ],

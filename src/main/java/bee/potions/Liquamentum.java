@@ -44,24 +44,6 @@ public class Liquamentum implements ModInitializer {
 	}
 
 
-	public static void read(Dynamic<?> dynamic) {
-
-		for (PotionName potionName : ALL_EFFECTS) {
-			dynamic.get(potionName.name).get().ifSuccess(
-					null
-			);
-		}
-	}
-
-	public static void write() {
-
-		for (PotionName potionName : ALL_EFFECTS) {
-			dynamic.get(potionName.name).get().ifSuccess(
-					null
-			);
-		}
-	}
-
 
 
 }
