@@ -2,6 +2,7 @@ package bee.potions.block.entity;
 
 import bee.potions.Liquamentum;
 import bee.potions.data.IngredientCategory;
+import bee.potions.data.PotionNameData;
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumRegistries;
 import bee.potions.registry.LiquamentumTags;
@@ -12,6 +13,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -21,6 +23,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -94,15 +97,14 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
 
     public ItemStack applyEffects(ItemStack stack, ServerLevel level, Player player) {
 
-
-
             var registry = level.registryAccess().lookupOrThrow(LiquamentumRegistries.INGREDIENT_CATEGORIES);
 
             for (Holder.Reference<IngredientCategory> holder : registry.listElements().toList()) {
                 IngredientCategory ingredientCategory = holder.value();
                 List<MobEffectInstance> categoryEffects = new ArrayList<>();
                 List<Item> categoryItems = ingredientCategory.getIngredients();
-                ingredientCategory.getIngredientEffects().forEach(mobEffectHolder -> categoryEffects.add(new MobEffectInstance(mobEffectHolder, 30, 60)));
+                List<Holder<MobEffect>> holders = ingredientCategory.getIngredientEffects();
+                holders.forEach(mobEffectHolder -> categoryEffects.add(new MobEffectInstance(mobEffectHolder, 30, 60)));
 
                 if (stack == null) {
                     player.addEffect(categoryEffects.getFirst());
@@ -112,6 +114,10 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
                 for (ItemStack ingredient : ingredients) {
                     if (categoryItems.contains(ingredient.getItem())) {
                         // randomization doesn't work, but getting it data driven is an accomplishment enough for me (about 12+ hours :sob:)
+                        PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
+                        if (potionNameData.hasName(holders)) {
+                            stack.set(DataComponents.ITEM_NAME, Component.literal(potionNameData.getName(holders)));
+                        }
                         PotionContents potionContents = new PotionContents(Optional.empty(), Optional.empty(), categoryEffects, Optional.empty());
                         stack.set(DataComponents.POTION_CONTENTS, potionContents);
                     }

@@ -1,66 +1,84 @@
 package bee.potions.data;
 
+import bee.potions.Liquamentum;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class PotionNameData extends SavedData {
-    private final Map<List<Holder<MobEffect>>, String> potionNameMap = new HashMap<>();
+    private final List<PotionName> potionNames = new ArrayList<>();
+    //this took me about a month (of on and off work)
+    //i am so fuckig happy rn
 
     public PotionNameData() {
-
     }
 
     public static PotionNameData getPotionNameData(MinecraftServer server) {
         ServerLevel level = server.getLevel(ServerLevel.OVERWORLD);
-        return new PotionNameData();
-        //return level.getDataStorage().computeIfAbsent(TYPE);
+        return level.getDataStorage().computeIfAbsent(TYPE);
     }
 
-    public static PotionNameData unpack(Map<List<Holder<MobEffect>>, String> map) {
+    public static PotionNameData unpack(List<PotionName> list) {
         PotionNameData potionNameData = new PotionNameData();
-        map.forEach((effect, string) -> potionNameData.potionNameMap.put(effect, string));
+        potionNameData.potionNames.addAll(list);
         return potionNameData;
     }
 
-    public Map<List<Holder<MobEffect>>, String> pack() {
-        Map<List<Holder<MobEffect>>, String> map = new HashMap<>();
-        //this is the line that breaks it
-        //i believe i understand it now
-        //i am not angry
-
-        this.potionNameMap.forEach((effect, string) -> map.put(effect, string));
-        return map;
+    public List<PotionName> pack() {
+        return new ArrayList<>(this.potionNames);
     }
 
-    private static final Codec<PotionNameData> CODEC =
-            Codec.unboundedMap(MobEffect.CODEC.listOf(), Codec.STRING).fieldOf("potion_names").codec().xmap(PotionNameData::unpack, PotionNameData::pack);
-    //public static final SavedDataType<PotionNameData> TYPE =new SavedDataType<>("potion_names", PotionNameData::new, CODEC, null);
+    private static final Codec<PotionNameData> CODEC = PotionName.CODEC.listOf().fieldOf("potion_names").codec().xmap(PotionNameData::unpack, PotionNameData::pack);
+    public static final SavedDataType<PotionNameData> TYPE = new SavedDataType<>(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "potion_names"), PotionNameData::new, CODEC, null);
 
 
-    //this working evades me
-
-
-
-    public Map<List<Holder<MobEffect>>, String> getPotionNameMap() {
-        return potionNameMap;
+    public List<PotionName> getPotionNames() {
+        return potionNames;
     }
 
-    public String getPotionName(List<Holder<MobEffect>> effects) {
-        return potionNameMap.get(effects);
+    public void addName(Map<List<Holder<MobEffect>>, String> potionNameMap) {
+        potionNameMap.forEach(this::addName);
     }
 
-    public void setPotionName(List<Holder<MobEffect>> effects, String potionName) {
-        this.potionNameMap.put(effects, potionName);
+    public void addName(List<Holder<MobEffect>> effectList, String name) {
+        this.potionNames.add(new PotionName(name, effectList));
         setDirty();
+    }
+
+    public void removeName(String name) {
+        potionNames.forEach(potionName -> {
+            if (potionName.name.equals(name)) {
+                potionNames.remove(potionName);
+            }
+        });
+        setDirty();
+    }
+
+    public String getName(List<Holder<MobEffect>> effectList) {
+        for (PotionName potionName : potionNames) {
+            if (potionName.getEffects().equals(effectList)) {
+                return potionName.getName();
+            }
+        }
+        return null;
+    }
+
+    public Boolean hasName(List<Holder<MobEffect>> effectList) {
+        for (PotionName potionName : potionNames) {
+            if (potionName.getEffects().equals(effectList)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

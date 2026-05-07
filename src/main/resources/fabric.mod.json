@@ -27,6 +27,7 @@
 		"cardinal-components-entity": [
 			"bee.potions.registry.LiquamentumEntityComponents"
 		]
+
 	},
 	"mixins": [
 		"liquamentum.mixins.json"

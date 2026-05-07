@@ -1,7 +1,6 @@
 package bee.potions.registry;
 
 import bee.potions.Liquamentum;
-import bee.potions.item.ClickerItem;
 import bee.potions.item.PotionVialItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,7 +15,6 @@ public class LiquamentumItems {
 
 
     public static final Item POTION_VIAL = register("potion_vial", PotionVialItem::new, new Item.Properties().durability(4).component(LiquamentumComponents.THROWABLE, false));
-    public static final Item TEST = register("test", ClickerItem::new, new Item.Properties());
 
 
 
