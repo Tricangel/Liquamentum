@@ -1,22 +1,22 @@
 package bee.potions.datagen;
 
 import bee.potions.registry.LiquamentumTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-public class LiquamentumItemTagDatagen extends FabricTagProvider.ItemTagProvider {
-
-    public LiquamentumItemTagDatagen(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+public class LiquamentumItemTagDatagen extends FabricTagsProvider.ItemTagsProvider {
+    public LiquamentumItemTagDatagen(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture, @Nullable BlockTagsProvider blockTagsProvider) {
+        super(output, registryLookupFuture, blockTagsProvider);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
+    public void addTags(HolderLookup.Provider provider) {
 
 
         valueLookupBuilder(LiquamentumTags.BASE_INGREDIENT)

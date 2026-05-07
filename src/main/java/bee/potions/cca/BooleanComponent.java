@@ -31,4 +31,5 @@ public class BooleanComponent implements Component, AutoSyncedComponent {
     public void writeData(ValueOutput valueOutput) {
         valueOutput.putBoolean(name, getValue());
     }
+
 }

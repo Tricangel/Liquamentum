@@ -1,7 +1,7 @@
 package bee.potions.registry;
 
 import bee.potions.Liquamentum;
-import bee.potions.ingredientEffect.IngredientCategory;
+import bee.potions.data.IngredientCategory;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
