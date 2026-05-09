@@ -16,8 +16,6 @@ public class LiquamentumItems {
 
     public static final Item POTION_VIAL = register("potion_vial", PotionVialItem::new, new Item.Properties().durability(4).component(LiquamentumComponents.THROWABLE, false));
 
-
-
     public static void init() {}
 
     public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory, Item.Properties settings) {

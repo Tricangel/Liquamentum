@@ -79,29 +79,17 @@ public class PotionVialItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
-        boolean shouldSendSound = false;
         ItemStack stack = player.getItemInHand(interactionHand);
 
-        if (player.isCrouching() && level instanceof ServerLevel) {
-            PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
-            List<MobEffectInstance> instances = stack.get(DataComponents.POTION_CONTENTS).customEffects();
-            List<Holder<MobEffect>> holders = new ArrayList<>();
-            instances.forEach(instance -> holders.add(instance.getEffect()));
-            potionNameData.addName(holders, stack.getCustomName().getString());
+        if (stack.get(DataComponents.POTION_CONTENTS) == null || stack.get(LiquamentumComponents.THROWABLE) == null || level.isClientSide()) return InteractionResult.FAIL;
 
 
-
-        }
-
-        if (stack.get(DataComponents.POTION_CONTENTS) == null) return InteractionResult.FAIL;
-        if (stack.get(LiquamentumComponents.THROWABLE) == null) return InteractionResult.FAIL;
         if (!stack.get(LiquamentumComponents.THROWABLE)) {
 
             player.startUsingItem(interactionHand);
             return InteractionResult.FAIL;
         }
 
-        if (level.isClientSide()) return InteractionResult.FAIL;
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.SPLASH_POTION_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
         Projectile.spawnProjectileFromRotation(this::createPotion, (ServerLevel) level, stack, player, -20.0f, 0.75f, 1.0f);
         player.awardStat(Stats.ITEM_USED.get(this));
@@ -110,10 +98,6 @@ public class PotionVialItem extends Item {
 
     }
 
-    @Override
-    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack itemStack, int i) {
-        super.onUseTick(level, livingEntity, itemStack, i);
-    }
 
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity livingEntity) {
@@ -131,8 +115,4 @@ public class PotionVialItem extends Item {
         return new ThrownLingeringPotion(serverLevel, livingEntity, itemStack);
     }
 
-    @Override
-    public boolean allowComponentsUpdateAnimation(Player player, InteractionHand hand, ItemStack oldStack, ItemStack newStack) {
-        return super.allowComponentsUpdateAnimation(player, hand, oldStack, newStack);
-    }
 }
