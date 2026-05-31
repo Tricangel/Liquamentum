@@ -1,8 +1,19 @@
 {
   "ingredient_effects": [
-    "minecraft:poison"
+    "minecraft:poison",
+    "minecraft:haste",
+    "minecraft:strength",
+    "minecraft:regeneration",
+    "minecraft:speed",
+    "minecraft:fire_resistance"
   ],
   "ingredients": [
+    "minecraft:oxeye_daisy",
+    "minecraft:cornflower",
+    "minecraft:lily_of_the_valley",
+    "minecraft:torchflower",
+    "minecraft:lilac",
+    "minecraft:sunflower",
     "minecraft:dandelion"
   ]
 }

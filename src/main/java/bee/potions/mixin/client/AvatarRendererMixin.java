@@ -20,8 +20,8 @@ public abstract class AvatarRendererMixin {
 
         if (Minecraft.getInstance().player != null) {
             LocalPlayer player = Minecraft.getInstance().player;
-            LiquamentumEntityComponents.ISOBSCURED.sync(player);
-            if (LiquamentumEntityComponents.ISOBSCURED.get(player).getValue()) {
+            LiquamentumEntityComponents.ISPETRIFIED.sync(player);
+            if (LiquamentumEntityComponents.ISPETRIFIED.get(player).getValue()) {
                 cir.setReturnValue(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "textures/misc/petrified_player.png"));
 
             }

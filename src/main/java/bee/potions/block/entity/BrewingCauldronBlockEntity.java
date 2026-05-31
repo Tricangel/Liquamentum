@@ -3,6 +3,7 @@ package bee.potions.block.entity;
 import bee.potions.Liquamentum;
 import bee.potions.data.IngredientCategory;
 import bee.potions.data.PotionNameData;
+import bee.potions.data.PotionRandomizationData;
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumRegistries;
 import bee.potions.registry.LiquamentumTags;
@@ -39,6 +40,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable {
     private final NonNullList<ItemStack> ingredients;
@@ -96,33 +98,41 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
 
 
     public ItemStack applyEffects(ItemStack stack, ServerLevel level, Player player) {
-
+            List<Holder<MobEffect>> effects = new ArrayList<>();
             var registry = level.registryAccess().lookupOrThrow(LiquamentumRegistries.INGREDIENT_CATEGORIES);
 
             for (Holder.Reference<IngredientCategory> holder : registry.listElements().toList()) {
-                IngredientCategory ingredientCategory = holder.value();
-                List<MobEffectInstance> categoryEffects = new ArrayList<>();
-                List<Item> categoryItems = ingredientCategory.getIngredients();
-                List<Holder<MobEffect>> holders = ingredientCategory.getIngredientEffects();
-                holders.forEach(mobEffectHolder -> categoryEffects.add(new MobEffectInstance(mobEffectHolder, 30, 60)));
 
-                if (stack == null) {
-                    player.addEffect(categoryEffects.getFirst());
-                    return null;
-                }
+                IngredientCategory ingredientCategory = holder.value();
+                List<Holder<MobEffect>> holders = ingredientCategory.getIngredientEffects();
+
 
                 for (ItemStack ingredient : ingredients) {
-                    if (categoryItems.contains(ingredient.getItem())) {
-                        // randomization doesn't work, but getting it data driven is an accomplishment enough for me (about 12+ hours :sob:)
+                    if (ingredientCategory.getIngredients().contains(ingredient.getItem())) {
                         PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
+                        PotionRandomizationData potionRandomizationData = PotionRandomizationData.getPotionNameData(level.getServer());
+
+
+
+                        effects.add(potionRandomizationData.randomize(ingredient.getItem(), holders, ingredientCategory));
+
                         if (potionNameData.hasName(holders)) {
                             stack.set(DataComponents.ITEM_NAME, Component.literal(potionNameData.getName(holders)));
                         }
-                        PotionContents potionContents = new PotionContents(Optional.empty(), Optional.empty(), categoryEffects, Optional.empty());
-                        stack.set(DataComponents.POTION_CONTENTS, potionContents);
+
                     }
             }
         }
+            List<MobEffectInstance> effectInstances = new ArrayList<>();
+
+            effects.forEach(instance -> {
+                MobEffectInstance effectInstance = new MobEffectInstance(instance, 100, 0);
+                effectInstances.add(effectInstance);
+            });
+
+            PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), effectInstances, Optional.empty());
+
+            stack.set(DataComponents.POTION_CONTENTS, contents);
 
 
         return stack;
