@@ -1,6 +1,9 @@
 {
-  "ingredient_effects": [
-    "minecraft:instant_health"
+  "should_tick": [
+    "liquamentum:test"
+  ],
+  "on_tick": [
+    "liquamentum:test2"
   ],
   "ingredients": [
     "minecraft:poppy"

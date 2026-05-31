@@ -2,6 +2,7 @@ package bee.potions.registry;
 
 import bee.potions.Liquamentum;
 import bee.potions.cca.BooleanComponent;
+import bee.potions.cca.EffectComponent;
 import bee.potions.cca.VoidDraftComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,13 +24,20 @@ public class LiquamentumEntityComponents implements EntityComponentInitializer {
 
     public static ComponentKey<BooleanComponent> ISPETRIFIED =
             ComponentRegistry.getOrCreate(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "ispetrified"), BooleanComponent.class);
-    
+
+    public static ComponentKey<EffectComponent> EFFECTS =
+            ComponentRegistry.getOrCreate(Identifier.fromNamespaceAndPath(Liquamentum.MOD_ID, "effects"), EffectComponent.class);
+
+
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry entityComponentFactoryRegistry) {
-        entityComponentFactoryRegistry.registerFor(LivingEntity.class, EXAMPLE, example -> new BooleanComponent("example"));
-        entityComponentFactoryRegistry.registerFor(LivingEntity.class, ISOBSCURED, isObscured -> new BooleanComponent("isObscured"));
-        entityComponentFactoryRegistry.registerFor(LivingEntity.class, ISPETRIFIED, isPetrified -> new BooleanComponent("isPetrified"));
+        entityComponentFactoryRegistry.registerFor(LivingEntity.class, EXAMPLE, _ -> new BooleanComponent("example"));
+        entityComponentFactoryRegistry.registerFor(LivingEntity.class, ISOBSCURED, _ -> new BooleanComponent("isObscured"));
+        entityComponentFactoryRegistry.registerFor(LivingEntity.class, ISPETRIFIED, _ -> new BooleanComponent("isPetrified"));
         entityComponentFactoryRegistry.registerFor(LivingEntity.class, VOIDDRAFT, VoidDraftComponent::new);
+
+        entityComponentFactoryRegistry.registerFor(LivingEntity.class, EFFECTS, EffectComponent::new);
+
 
     }
 }

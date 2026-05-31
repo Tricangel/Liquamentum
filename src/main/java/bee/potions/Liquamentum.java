@@ -31,7 +31,7 @@ public class Liquamentum implements ModInitializer {
 		LiquamentumItems.init();
 		LiquamentumComponents.init();
 		LiquamentumAttributes.init();
-
+		LiquamentumEffectTickers.init();
 
 		DynamicRegistries.register(LiquamentumRegistries.INGREDIENT_CATEGORIES, IngredientCategory.CODEC);
 

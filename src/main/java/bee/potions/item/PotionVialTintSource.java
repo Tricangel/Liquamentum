@@ -25,7 +25,7 @@ public record PotionVialTintSource(int colour) implements ItemTintSource {
             //whats the difference between this and the vanilla method, uhhhh i can mess with this one :3
             return itemStack.get(DataComponents.POTION_CONTENTS).getColor();
         }
-        return 0;
+        return colour;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package bee.potions.item;
 
 import bee.potions.block.entity.BrewingCauldronBlockEntity;
-import bee.potions.data.PotionNameData;
+import bee.potions.data.PotionRandomizationData;
 import bee.potions.registry.LiquamentumComponents;
-import net.minecraft.core.Holder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -11,14 +11,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownLingeringPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownSplashPotion;
 import net.minecraft.world.inventory.ClickAction;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
@@ -27,12 +26,17 @@ import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PotionVialItem extends Item {
     public PotionVialItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void onUseTick(Level level, LivingEntity livingEntity, ItemStack itemStack, int ticksRemaining) {
+        if (level.isClientSide() && livingEntity instanceof Player player) {
+
+        }
+        super.onUseTick(level, livingEntity, itemStack, ticksRemaining);
     }
 
     @Override
@@ -48,10 +52,8 @@ public class PotionVialItem extends Item {
 
     @Override
     public boolean overrideOtherStackedOnMe(ItemStack itemStack, ItemStack itemStack2, Slot slot, ClickAction clickAction, Player player, SlotAccess slotAccess) {
-        if (clickAction == ClickAction.SECONDARY && itemStack.get(DataComponents.POTION_CONTENTS) != null) {
-            if (itemStack.has(LiquamentumComponents.THROWABLE)) {
-                itemStack.set(LiquamentumComponents.THROWABLE, false);
-            } else itemStack.set(LiquamentumComponents.THROWABLE, false);
+        if (clickAction == ClickAction.SECONDARY && itemStack.get(DataComponents.POTION_CONTENTS) != null && itemStack.get(LiquamentumComponents.THROWABLE) != null) {
+            itemStack.set(LiquamentumComponents.THROWABLE, !itemStack.get(LiquamentumComponents.THROWABLE));
             if (player.level().isClientSide()) {
                 player.playSound(SoundEvents.UI_BUTTON_CLICK.value(), 1, 0.25f);
             }
@@ -102,17 +104,18 @@ public class PotionVialItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level level, LivingEntity livingEntity) {
         if (!level.isClientSide()) {
-            if (itemStack.get(DataComponents.POTION_CONTENTS) != null) {
-                itemStack.get(DataComponents.POTION_CONTENTS).applyToLivingEntity(livingEntity, 12);
+            if (itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT) != null) {
+                itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT).applyToEntity(livingEntity);
                 itemStack.hurtAndBreak(1, livingEntity, livingEntity.getUsedItemHand());
             }
 
         }
+        if (itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT) != null) livingEntity.playSound(SoundEvents.GLASS_BREAK);
         return super.finishUsingItem(itemStack, level, livingEntity);
     }
 
     protected AbstractThrownPotion createPotion(ServerLevel serverLevel, LivingEntity livingEntity, ItemStack itemStack) {
-        return new ThrownLingeringPotion(serverLevel, livingEntity, itemStack);
+        return new ThrownSplashPotion(serverLevel, livingEntity, itemStack);
     }
 
 }

@@ -1,22 +1,46 @@
 package bee.potions.item;
 
+import bee.potions.effect.Effect;
+import bee.potions.registry.LiquamentumEntityComponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-public record PotionVialComponent(Optional<Integer> customColour, List<MobEffectInstance> customEffects) {
+public record PotionVialComponent(Optional<Integer> colour, List<Effect> effects) implements TooltipProvider {
     public static final Codec<PotionVialComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.optionalFieldOf("customColour").forGetter(PotionVialComponent::customColour), MobEffectInstance.CODEC.listOf().optionalFieldOf("customEffects", List.of()).forGetter(PotionVialComponent::customEffects)
+            Codec.INT.optionalFieldOf("colour").forGetter(PotionVialComponent::colour),
+            Effect.CODEC.listOf().optionalFieldOf("effects", List.of()).forGetter(PotionVialComponent::effects)
     ).apply(instance, PotionVialComponent::new));
 
     public static final int BASE_POTION_COLOR = -13083194;
 
     public int getColour() {
-        return customColour.orElse(BASE_POTION_COLOR);
+        return colour.orElse(BASE_POTION_COLOR);
     }
 
 
+    public void applyToEntity(LivingEntity livingEntity) {
+        this.effects.forEach(effect -> {
+            effect.applyToLivingEntity(livingEntity);
+
+        });
+    }
+
+
+    @Override
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> consumer, TooltipFlag flag, DataComponentGetter components) {
+        effects.forEach(effect -> {
+            consumer.accept(Component.literal(effect.toString()));
+        });
+    }
 }

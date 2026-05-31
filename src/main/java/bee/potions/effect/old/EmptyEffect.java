@@ -1,4 +1,4 @@
-package bee.potions.effect;
+package bee.potions.effect.old;
 
 
 import net.minecraft.world.effect.MobEffect;

@@ -2,6 +2,7 @@ package bee.potions.registry;
 
 import bee.potions.Liquamentum;
 import bee.potions.item.PotionVialItem;
+import bee.potions.item.heywhateffectsdoihave;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -15,7 +16,7 @@ public class LiquamentumItems {
 
 
     public static final Item POTION_VIAL = register("potion_vial", PotionVialItem::new, new Item.Properties().durability(4).component(LiquamentumComponents.THROWABLE, false));
-
+    public static final Item WHAT = register("what", heywhateffectsdoihave::new, new Item.Properties());
     public static void init() {}
 
     public static <GenericItem extends Item> GenericItem register(String name, Function<Item.Properties, GenericItem> itemFactory, Item.Properties settings) {

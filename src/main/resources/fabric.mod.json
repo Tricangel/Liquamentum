@@ -29,6 +29,7 @@
 		]
 
 	},
+	"accessWidener": "liquamentum.classtweaker",
 	"mixins": [
 		"liquamentum.mixins.json"
 	],
@@ -37,7 +38,9 @@
 			"liquamentum:example",
 			"liquamentum:isobscured",
 			"liquamentum:voiddraft",
-			"liquamentum:ispetrified"
+			"liquamentum:ispetrified",
+			"liquamentum:movement",
+			"liquamentum:effects"
 		]
 	},
 	"depends": {

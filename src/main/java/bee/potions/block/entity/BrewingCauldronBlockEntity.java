@@ -4,7 +4,12 @@ import bee.potions.Liquamentum;
 import bee.potions.data.IngredientCategory;
 import bee.potions.data.PotionNameData;
 import bee.potions.data.PotionRandomizationData;
+import bee.potions.effect.Effect;
+import bee.potions.effect.OnTick;
+import bee.potions.effect.ShouldTick;
+import bee.potions.item.PotionVialComponent;
 import bee.potions.registry.LiquamentumBlockEntities;
+import bee.potions.registry.LiquamentumComponents;
 import bee.potions.registry.LiquamentumRegistries;
 import bee.potions.registry.LiquamentumTags;
 import net.minecraft.core.BlockPos;
@@ -27,7 +32,6 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,9 +42,10 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.function.Predicate;
 
 public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable {
     private final NonNullList<ItemStack> ingredients;
@@ -102,39 +107,29 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
             var registry = level.registryAccess().lookupOrThrow(LiquamentumRegistries.INGREDIENT_CATEGORIES);
 
             for (Holder.Reference<IngredientCategory> holder : registry.listElements().toList()) {
-
                 IngredientCategory ingredientCategory = holder.value();
-                List<Holder<MobEffect>> holders = ingredientCategory.getIngredientEffects();
-
+                List<ShouldTick> shouldTicks = ingredientCategory.getIngredientShouldTicks();
+                List<OnTick> onTicks = ingredientCategory.getIngredientOnTicks();
 
                 for (ItemStack ingredient : ingredients) {
                     if (ingredientCategory.getIngredients().contains(ingredient.getItem())) {
-                        PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
-                        PotionRandomizationData potionRandomizationData = PotionRandomizationData.getPotionNameData(level.getServer());
+                        //PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
+                        //PotionRandomizationData potionRandomizationData = PotionRandomizationData.getPotionRandomizationData(level.getServer());
 
-
-
-                        effects.add(potionRandomizationData.randomize(ingredient.getItem(), holders, ingredientCategory));
-
-                        if (potionNameData.hasName(holders)) {
-                            stack.set(DataComponents.ITEM_NAME, Component.literal(potionNameData.getName(holders)));
-                        }
+                        Effect effect = new Effect(shouldTicks.getFirst(), onTicks.getFirst(), 100);
+                        stack.set(LiquamentumComponents.POTIONVIALCOMPONENT, new PotionVialComponent(Optional.of(1), List.of(effect)));
 
                     }
             }
         }
-            List<MobEffectInstance> effectInstances = new ArrayList<>();
+        List<MobEffectInstance> effectInstances = new ArrayList<>();
+        for (Holder<MobEffect> effectHolder : effects) {
+            MobEffectInstance effectInstance = new MobEffectInstance(effectHolder, 100 * Collections.frequency(effects, effectHolder), 0);
+            effectInstances.add(effectInstance);
+        }
 
-            effects.forEach(instance -> {
-                MobEffectInstance effectInstance = new MobEffectInstance(instance, 100, 0);
-                effectInstances.add(effectInstance);
-            });
-
-            PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), effectInstances, Optional.empty());
-
-            stack.set(DataComponents.POTION_CONTENTS, contents);
-
-
+        PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), effectInstances, Optional.empty());
+        stack.set(DataComponents.POTION_CONTENTS, contents);
         return stack;
     }
 
