@@ -1,9 +1,9 @@
 {
-  "should_tick": [
-    "liquamentum:test"
+  "should_trigger": [
+    "liquamentum:empty_should"
   ],
-  "on_tick": [
-    "liquamentum:test2"
+  "effect_trigger": [
+    "liquamentum:empty_effect"
   ],
   "ingredients": [
     "minecraft:poppy"

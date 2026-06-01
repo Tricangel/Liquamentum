@@ -7,8 +7,7 @@
     "BrewingStandBlockMixin",
     "EntityMixin",
     "MobEffectInstanceMixin",
-    "PotionContentsMixin",
-    "client.InputMixin"
+    "PotionContentsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -17,10 +16,6 @@
     "requireAnnotations": true
   },
   "client": [
-    "client.AvatarRendererMixin",
-    "client.EntityRendererMixin",
-    "client.GuiMixin",
-    "client.HumanoidArmorLayerMixin",
-    "client.LivingEntityRendererMixin"
+    "client.GuiMixin"
   ]
 }

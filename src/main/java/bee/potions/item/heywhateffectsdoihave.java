@@ -16,7 +16,7 @@ public class heywhateffectsdoihave extends Item {
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide()) {
-            player.sendSystemMessage(Component.literal(String.valueOf(LiquamentumEntityComponents.EFFECTS.get(player).getEffects())));
+            player.sendSystemMessage(Component.literal(String.valueOf(LiquamentumEntityComponents.EFFECTS.get(player).getEffectMap())));
         }
         return super.use(level, player, hand);
     }

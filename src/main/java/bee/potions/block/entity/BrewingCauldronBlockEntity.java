@@ -2,11 +2,12 @@ package bee.potions.block.entity;
 
 import bee.potions.Liquamentum;
 import bee.potions.data.IngredientCategory;
-import bee.potions.data.PotionNameData;
 import bee.potions.data.PotionRandomizationData;
 import bee.potions.effect.Effect;
-import bee.potions.effect.OnTick;
-import bee.potions.effect.ShouldTick;
+import bee.potions.effect.EffectInstance;
+import bee.potions.effect.EffectTrigger;
+import bee.potions.effect.tick.OnTick;
+import bee.potions.effect.shouldtrigger.ShouldTrigger;
 import bee.potions.item.PotionVialComponent;
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumComponents;
@@ -19,7 +20,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable {
     private final NonNullList<ItemStack> ingredients;
@@ -103,33 +102,32 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
 
 
     public ItemStack applyEffects(ItemStack stack, ServerLevel level, Player player) {
-            List<Holder<MobEffect>> effects = new ArrayList<>();
+        Holder<ShouldTrigger> shouldTrigger = null;
+        Holder<EffectTrigger> effectTrigger = null;
             var registry = level.registryAccess().lookupOrThrow(LiquamentumRegistries.INGREDIENT_CATEGORIES);
 
             for (Holder.Reference<IngredientCategory> holder : registry.listElements().toList()) {
                 IngredientCategory ingredientCategory = holder.value();
-                List<ShouldTick> shouldTicks = ingredientCategory.getIngredientShouldTicks();
-                List<OnTick> onTicks = ingredientCategory.getIngredientOnTicks();
+                List<Holder<ShouldTrigger>> shouldTriggers = ingredientCategory.getIngredientShouldTicks();
+                List<Holder<EffectTrigger>> effectTriggers = ingredientCategory.getIngredientOnTicks();
+                PotionRandomizationData randomizationData = PotionRandomizationData.getPotionNameData(level.getServer());
 
-                for (ItemStack ingredient : ingredients) {
-                    if (ingredientCategory.getIngredients().contains(ingredient.getItem())) {
-                        //PotionNameData potionNameData = PotionNameData.getPotionNameData(level.getServer());
-                        //PotionRandomizationData potionRandomizationData = PotionRandomizationData.getPotionRandomizationData(level.getServer());
 
-                        Effect effect = new Effect(shouldTicks.getFirst(), onTicks.getFirst(), 100);
-                        stack.set(LiquamentumComponents.POTIONVIALCOMPONENT, new PotionVialComponent(Optional.of(1), List.of(effect)));
 
-                    }
+                if (ingredientCategory.getIngredients().contains(ingredients.getFirst().getItem())) {
+                    shouldTrigger = randomizationData.randomizeFirstItem(ingredients.getFirst().getItem(), shouldTriggers, ingredientCategory);
+                }
+
+                if (ingredientCategory.getIngredients().contains(ingredients.get(1).getItem())) {
+                    effectTrigger = randomizationData.randomizeSecondItem(ingredients.get(1).getItem(), effectTriggers, ingredientCategory);
+                }
+
+
             }
-        }
-        List<MobEffectInstance> effectInstances = new ArrayList<>();
-        for (Holder<MobEffect> effectHolder : effects) {
-            MobEffectInstance effectInstance = new MobEffectInstance(effectHolder, 100 * Collections.frequency(effects, effectHolder), 0);
-            effectInstances.add(effectInstance);
-        }
 
-        PotionContents contents = new PotionContents(Optional.empty(), Optional.empty(), effectInstances, Optional.empty());
-        stack.set(DataComponents.POTION_CONTENTS, contents);
+        if (effectTrigger != null && shouldTrigger != null)
+            stack.set(LiquamentumComponents.POTIONVIALCOMPONENT, new PotionVialComponent(Optional.empty(), List.of(new EffectInstance(new Effect(shouldTrigger ,effectTrigger), 1000 * ingredients.size()))));
+
         return stack;
     }
 

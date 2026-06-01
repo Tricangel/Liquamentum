@@ -83,7 +83,7 @@ public class PotionVialItem extends Item {
     public InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack stack = player.getItemInHand(interactionHand);
 
-        if (stack.get(DataComponents.POTION_CONTENTS) == null || stack.get(LiquamentumComponents.THROWABLE) == null || level.isClientSide()) return InteractionResult.FAIL;
+        if (stack.get(LiquamentumComponents.POTIONVIALCOMPONENT) == null || stack.get(LiquamentumComponents.THROWABLE) == null || level.isClientSide()) return InteractionResult.FAIL;
 
 
         if (!stack.get(LiquamentumComponents.THROWABLE)) {

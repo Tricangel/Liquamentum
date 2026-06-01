@@ -1,5 +1,6 @@
 package bee.potions.item;
 
+import bee.potions.registry.LiquamentumComponents;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.color.item.ItemTintSource;
@@ -23,7 +24,8 @@ public record PotionVialTintSource(int colour) implements ItemTintSource {
         if (itemStack.get(DataComponents.POTION_CONTENTS) != null) {
 
             //whats the difference between this and the vanilla method, uhhhh i can mess with this one :3
-            return itemStack.get(DataComponents.POTION_CONTENTS).getColor();
+            //well now theres a difference so take that
+            return itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT).getColour();
         }
         return colour;
     }

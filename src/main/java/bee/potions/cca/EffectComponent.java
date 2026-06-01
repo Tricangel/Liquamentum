@@ -1,7 +1,10 @@
 package bee.potions.cca;
 
 import bee.potions.effect.Effect;
-import bee.potions.registry.LiquamentumEntityComponents;
+import bee.potions.effect.EffectInstance;
+import bee.potions.packet.EffectS2CPacket;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -9,56 +12,84 @@ import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v8.component.CardinalComponent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EffectComponent implements CardinalComponent, AutoSyncedComponent {
     private final LivingEntity entity;
-    private List<Effect> effects = new ArrayList<>();
+    private Map<Effect, EffectInstance> effects = new HashMap<>();
 
     public EffectComponent(LivingEntity entity) {
         this.entity = entity;
     }
 
-    public List<Effect> getEffects() {
+    public Map<Effect, EffectInstance> getEffectMap() {
         return effects;
     }
 
-    public void setEffects(List<Effect> effects) {
+    public List<EffectInstance> getEffectInstances() {
+        List<EffectInstance> effectInstances = new ArrayList<>();
+        effects.forEach((effect, effectInstance) -> effectInstances.add(effectInstance));
+        return effectInstances;
+    }
+
+    public List<Effect> getEffects() {
+        List<Effect> effectList = new ArrayList<>();
+        effects.forEach((effect, effectInstance) -> effectList.add(effect));
+        return effectList;
+    }
+
+
+    public void setEffects(Map<Effect, EffectInstance> effects) {
         this.effects = effects;
-        LiquamentumEntityComponents.EFFECTS.sync(entity);
+        if (entity instanceof ServerPlayer player) {
+            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+        }
     }
 
-    public void addEffect(Effect effect) {
-        boolean isNew = true;
-        for (Effect effect1 : effects) {
-            if (effect1.equals(effect)) {
-                effect1.setDuration(effect.getDuration());
-                isNew = false;
+    public void addEffect(EffectInstance effectInstance) {
+        for (int i = 0; i < effects.size(); i++) {
+            EffectInstance effectInstance1 = getEffectInstances().get(i);
+            Effect effect = getEffects().get(i);
+            Effect effect1 = effectInstance1.getEffect();
+
+            if (effect.getEffectTrigger().equals(effect1.getEffectTrigger()) &&effect.getShouldTrigger().equals(effect1.getShouldTrigger())) {
+                effects.remove(effect, effectInstance1);
             }
         }
-        if (isNew) this.effects.add(effect);
-        LiquamentumEntityComponents.EFFECTS.sync(entity);
+
+        effects.put(effectInstance.getEffect(), effectInstance);
+
+        if (entity instanceof ServerPlayer player) {
+            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+        }
     }
 
-    public void removeEffect(Effect effect) {
-        List<Effect> effects = new ArrayList<>();
-        for (Effect effect1 : this.effects) {
-            if (!effect1.equals(effect)) {
-                effects.add(effect1);
-            }
+    public void removeEffect(EffectInstance effect) {
+        effects.remove(effect.getEffect());
+        if (entity instanceof ServerPlayer player) {
+            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
         }
-        this.setEffects(effects);
-        LiquamentumEntityComponents.EFFECTS.sync(entity);
     }
 
 
     @Override
     public void readData(ValueInput readView) {
-        readView.read("effects", Effect.CODEC.listOf());
+        List<EffectInstance> effectInstances;
+        Map<Effect, EffectInstance> effectMap = new HashMap<>();
+        if (readView.read("effects", EffectInstance.CODEC.listOf()).isPresent()) {
+            effectInstances = readView.read("effects", EffectInstance.CODEC.listOf()).get();
+            effectInstances.forEach(effectInstance -> effectMap.put(effectInstance.getEffect(), effectInstance));
+        }
+        effects = effectMap;
+
     }
+
 
     @Override
     public void writeData(ValueOutput writeView) {
-        writeView.store("effects", Effect.CODEC.listOf(), getEffects());
+        writeView.store("effects", EffectInstance.CODEC.listOf(), getEffectInstances().stream().toList());
     }
+
 }
