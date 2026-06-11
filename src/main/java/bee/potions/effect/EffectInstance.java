@@ -63,6 +63,6 @@ public class EffectInstance {
 
     @Override
     public String toString() {
-        return effect.getShouldTrigger().getRegisteredName() + effect.getEffectTrigger().getRegisteredName();
+        return effect.getShouldTrigger().getRegisteredName() + effect.getEffectTrigger().getRegisteredName() + duration;
     }
 }

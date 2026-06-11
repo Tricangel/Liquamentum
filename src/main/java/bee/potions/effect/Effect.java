@@ -33,4 +33,16 @@ public class Effect {
         return shouldTrigger;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Effect effect) {
+            return effect.getEffectTrigger().equals(getEffectTrigger())
+                    && effect.getShouldTrigger().equals(getShouldTrigger());
+        } else return false;
+    }
+
+    @Override
+    public String toString() {
+        return effectTrigger.getRegisteredName() + shouldTrigger.getRegisteredName();
+    }
 }

@@ -35,6 +35,7 @@ public class EffectOverlay {
                 graphics.blitSprite(RenderPipelines.GUI_TEXTURED, getShouldTriggerSprite(effect.getEffect()), x + 3, 4, 18, 18);
                 graphics.blitSprite(RenderPipelines.GUI_TEXTURED, getEffectTriggerSprite(effect.getEffect()), x + 3, 4, 18, 18);
                 graphics.text(Minecraft.getInstance().font, String.valueOf(effect.getDuration() / 20), x, 25, ARGB.white(255));
+                //bugs with this hmmmm
             }
         }
 
