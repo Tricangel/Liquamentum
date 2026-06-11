@@ -1,2 +1,2 @@
-for the time being this is going to be archived.
-will come back to this in the future? but for now the other version of liquamentum interests me more
+unsure on what i want to work on
+so for the time being expect nothing specific
