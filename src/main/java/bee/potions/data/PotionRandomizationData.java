@@ -3,7 +3,7 @@ package bee.potions.data;
 import bee.potions.Liquamentum;
 import bee.potions.effect.Effect;
 import bee.potions.effect.EffectTrigger;
-import bee.potions.effect.shouldtrigger.ShouldTrigger;
+import bee.potions.effect.effectcondition.EffectCondition;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
@@ -65,11 +65,11 @@ public class PotionRandomizationData extends SavedData {
         setDirty();
     }
 
-    public Effect randomize(Item item, List<Holder<ShouldTrigger>> shouldTriggers, List<Holder<EffectTrigger>> effectTriggers, IngredientCategory category) {
+    public Effect randomize(Item item, List<Holder<EffectCondition>> shouldTriggers, List<Holder<EffectTrigger>> effectTriggers, IngredientCategory category) {
         if (this.isRandomized(item)) {
             return this.getRandomization(item);
         }
-        Holder<ShouldTrigger> shouldTrigger = randomizeFirstItem(item, shouldTriggers, category);
+        Holder<EffectCondition> shouldTrigger = randomizeFirstItem(item, shouldTriggers, category);
         Holder<EffectTrigger> effectTrigger = randomizeSecondItem(item, effectTriggers, category);
 
         Effect effect = new Effect(shouldTrigger, effectTrigger);
@@ -80,12 +80,12 @@ public class PotionRandomizationData extends SavedData {
 
     }
 
-    public Holder<ShouldTrigger> randomizeFirstItem(Item item, List<Holder<ShouldTrigger>> shouldTriggers, IngredientCategory category) {
+    public Holder<EffectCondition> randomizeFirstItem(Item item, List<Holder<EffectCondition>> shouldTriggers, IngredientCategory category) {
         if (this.isRandomized(item)) {
             return this.getRandomization(item).getShouldTrigger();
         }
 
-        Holder<ShouldTrigger> shouldTrigger = shouldTriggers.get(new Random().nextInt(shouldTriggers.size()));
+        Holder<EffectCondition> shouldTrigger = shouldTriggers.get(new Random().nextInt(shouldTriggers.size()));
 
         for (PotionRandomization potionRandomization : potionRandomizations) {
             if (potionRandomization.effect.getShouldTrigger().equals(shouldTrigger) && potionRandomization.category.equals(category)) {

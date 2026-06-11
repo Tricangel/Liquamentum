@@ -55,7 +55,7 @@ public class EffectComponent implements CardinalComponent, AutoSyncedComponent {
             Effect effect1 = effectInstance1.getEffect();
 
             if (effect.getEffectTrigger().equals(effect1.getEffectTrigger()) &&effect.getShouldTrigger().equals(effect1.getShouldTrigger())) {
-                effects.remove(effect, effectInstance1);
+                //effects.remove(effect, effectInstance1);
             }
         }
 

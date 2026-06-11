@@ -1,18 +1,10 @@
 package bee.potions.effect;
 
 import bee.potions.cca.EffectComponent;
-import bee.potions.effect.shouldtrigger.ShouldTrigger;
 import bee.potions.effect.tick.OnTick;
-import bee.potions.packet.EffectS2CPacket;
-import bee.potions.registry.LiquamentumEffectComponents;
 import bee.potions.registry.LiquamentumEntityComponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.core.Holder;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -39,7 +31,8 @@ public class EffectInstance {
 
         if (effect.getShouldTrigger().value().canTrigger(livingEntity)) {
             if (effect.getEffectTrigger().value() instanceof OnTick onTick) {
-                onTick.triggerEffect(livingEntity);
+                if (!onTick.onCooldown()) onTick.triggerEffect(livingEntity);
+                onTick.setCooldown(onTick.getCooldown() - 1);
                 if (onTick.removesAfterTick())
                     LiquamentumEntityComponents.EFFECTS.get(livingEntity).removeEffect(this);
             }
@@ -68,4 +61,8 @@ public class EffectInstance {
         this.duration = duration;
     }
 
+    @Override
+    public String toString() {
+        return effect.getShouldTrigger().getRegisteredName() + effect.getEffectTrigger().getRegisteredName();
+    }
 }

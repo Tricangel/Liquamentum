@@ -7,14 +7,30 @@ import net.minecraft.world.entity.LivingEntity;
 
 public abstract  class OnTick extends EffectTrigger {
 
-    public OnTick(String name) {
-        super(name);
-    }
+
+    private float cooldown;
 
     public void triggerEffect(LivingEntity livingEntity) {
     }
 
     public boolean removesAfterTick() {
         return false;
+    }
+
+
+    public float getCooldown() {
+        return cooldown;
+    }
+
+    public boolean onCooldown() {
+        return this.cooldown > 0f;
+    }
+
+    public void setCooldown(float cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public void setCooldownSeconds(float cooldown) {
+        this.cooldown = cooldown * 20;
     }
 }
