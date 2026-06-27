@@ -3,6 +3,7 @@ package bee.potions.cca;
 import bee.potions.effect.Effect;
 import bee.potions.effect.EffectInstance;
 import bee.potions.packet.EffectS2CPacket;
+import bee.potions.registry.LiquamentumEntityComponents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -61,14 +62,14 @@ public class EffectComponent implements CardinalComponent, AutoSyncedComponent {
 
 
         if (entity instanceof ServerPlayer player) {
-            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+            LiquamentumEntityComponents.EFFECTS.sync(player);
         }
     }
 
     public void removeEffect(EffectInstance effect) {
         effects.remove(effect.getEffect(), effect);
         if (entity instanceof ServerPlayer player) {
-            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+            LiquamentumEntityComponents.EFFECTS.sync(player);
         }
     }
 

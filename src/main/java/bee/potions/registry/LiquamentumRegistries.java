@@ -14,8 +14,8 @@ public interface LiquamentumRegistries {
     ResourceKey<Registry<EffectCondition>> SHOULD_TRIGGER_KEY = createRegistryKey("should_trigger");
     ResourceKey<Registry<EffectTrigger>> EFFECT_TRIGGER_KEY = createRegistryKey("effect_trigger_key");
 
-    Registry<EffectCondition> SHOULD_TRIGGER = BuiltInRegistries.registerSimple(SHOULD_TRIGGER_KEY, _ -> LiquamentumEffectComponents.EMPTY_SHOULD);
-    Registry<EffectTrigger> EFFECT_TRIGGER = BuiltInRegistries.registerSimple(EFFECT_TRIGGER_KEY, _ -> LiquamentumEffectComponents.EMPTY_EFFECT);
+    Registry<EffectCondition> SHOULD_TRIGGER = BuiltInRegistries.registerSimple(SHOULD_TRIGGER_KEY, _ -> LiquamentumEffectComponents.WHEN_WET);
+    Registry<EffectTrigger> EFFECT_TRIGGER = BuiltInRegistries.registerSimple(EFFECT_TRIGGER_KEY, _ -> LiquamentumEffectComponents.MOVEMENT_BURST);
 
 
 

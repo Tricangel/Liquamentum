@@ -1,9 +1,10 @@
 {
   "should_trigger": [
-    "liquamentum:empty_should"
+    "liquamentum:when_wet",
+    "liquamentum:standing_still"
   ],
   "effect_trigger": [
-    "liquamentum:empty_effect"
+    "liquamentum:movement_burst"
   ],
   "ingredients": [
     "minecraft:poppy"

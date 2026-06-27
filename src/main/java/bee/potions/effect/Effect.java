@@ -4,6 +4,7 @@ import bee.potions.effect.effectcondition.EffectCondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
+import net.minecraft.world.entity.LivingEntity;
 
 public class Effect {
     public static final Codec<Effect> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -21,7 +22,7 @@ public class Effect {
     }
 
     //--- evil comment to make this more readable ---\\
-
+    
 
 
 
@@ -45,4 +46,9 @@ public class Effect {
     public String toString() {
         return effectTrigger.getRegisteredName() + shouldTrigger.getRegisteredName();
     }
+
+    public boolean canTrigger(LivingEntity livingEntity) {
+        return this.getShouldTrigger().value().canTrigger(livingEntity);
+    }
+
 }
