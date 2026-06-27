@@ -25,7 +25,7 @@ public record PotionVialTintSource(int colour) implements ItemTintSource {
 
             //whats the difference between this and the vanilla method, uhhhh i can mess with this one :3
             //well now theres a difference so take that
-            return itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT).getColour();
+            return itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT) != null ? itemStack.get(LiquamentumComponents.POTIONVIALCOMPONENT).getColour() : 0;
         }
         return colour;
     }

@@ -3,7 +3,7 @@ package bee.potions.registry;
 import bee.potions.effect.Effect;
 import bee.potions.effect.EffectInstance;
 import bee.potions.effect.EffectTrigger;
-import bee.potions.effect.shouldtrigger.ShouldTrigger;
+import bee.potions.effect.effectcondition.EffectCondition;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.Commands;
@@ -14,7 +14,6 @@ import net.minecraft.server.permissions.Permissions;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-import java.util.Collection;
 import java.util.List;
 
 public class LiquamentumCommands {
@@ -29,7 +28,7 @@ public class LiquamentumCommands {
                                                     .then(Commands.argument("effect_trigger", ResourceArgument.resource(registryAccess, LiquamentumRegistries.EFFECT_TRIGGER_KEY))
                                             .then(Commands.argument("duration", IntegerArgumentType.integer()).executes(context -> {
                                                 List<Entity> entities = (List<Entity>) EntityArgument.getEntities(context, "targets").stream().toList();
-                                                Holder<ShouldTrigger> shouldTrigger = ResourceArgument.getResource(context, "should_trigger", LiquamentumRegistries.SHOULD_TRIGGER_KEY);
+                                                Holder<EffectCondition> shouldTrigger = ResourceArgument.getResource(context, "should_trigger", LiquamentumRegistries.SHOULD_TRIGGER_KEY);
                                                 Holder<EffectTrigger> effectTrigger = ResourceArgument.getResource(context, "effect_trigger", LiquamentumRegistries.EFFECT_TRIGGER_KEY);
                                                 int duration = IntegerArgumentType.getInteger(context, "duration");
 

@@ -1,20 +1,17 @@
 package bee.potions.effect;
 
 import bee.potions.cca.EffectComponent;
-import bee.potions.effect.shouldtrigger.ShouldTrigger;
+import bee.potions.effect.effectcondition.WhenWet;
+import bee.potions.effect.tick.CooldownOnTick;
+import bee.potions.effect.tick.MovementBurst;
 import bee.potions.effect.tick.OnTick;
-import bee.potions.packet.EffectS2CPacket;
-import bee.potions.registry.LiquamentumEffectComponents;
 import bee.potions.registry.LiquamentumEntityComponents;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import io.netty.buffer.ByteBuf;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.core.Holder;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class EffectInstance {
     public static final Codec<EffectInstance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -37,21 +34,22 @@ public class EffectInstance {
         if (duration < 0) duration = 100;
         if (duration <= 0) LiquamentumEntityComponents.EFFECTS.get(livingEntity).removeEffect(this);
 
-        if (effect.getShouldTrigger().value().canTrigger(livingEntity)) {
-            if (effect.getEffectTrigger().value() instanceof OnTick onTick) {
+        if (effect.getEffectTrigger().value() instanceof OnTick onTick) {
+
+            if (onTick instanceof CooldownOnTick cooldown) cooldown.setCooldown(cooldown.getCooldown() - 1);
+
+            if (effect.canTrigger(livingEntity)) {
+
                 onTick.triggerEffect(livingEntity);
+
                 if (onTick.removesAfterTick())
                     LiquamentumEntityComponents.EFFECTS.get(livingEntity).removeEffect(this);
             }
         }
-        if (livingEntity instanceof ServerPlayer player) {
-            LiquamentumEntityComponents.EFFECTS.sync(player);
-        }
     }
 
     public void applyToLivingEntity(LivingEntity livingEntity) {
-        EffectComponent effects = LiquamentumEntityComponents.EFFECTS.get(livingEntity);
-        effects.addEffect(this);
+        LiquamentumEntityComponents.EFFECTS.get(livingEntity).addEffect(this);
     }
 
 
@@ -68,4 +66,8 @@ public class EffectInstance {
         this.duration = duration;
     }
 
+    @Override
+    public String toString() {
+        return effect.getShouldTrigger().getRegisteredName() + effect.getEffectTrigger().getRegisteredName() + duration;
+    }
 }

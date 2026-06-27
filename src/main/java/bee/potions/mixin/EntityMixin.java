@@ -27,13 +27,14 @@ public class EntityMixin {
 
 	@Inject(at = @At("HEAD"), method = "hurtServer")
 	private void wawaw(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
-		LivingEntity livingEntity = (LivingEntity) (Object) this;
-		EffectComponent effects = LiquamentumEntityComponents.EFFECTS.get(livingEntity);
-		effects.getEffectInstances().forEach(effect -> {
-			if (effect.getEffect().getEffectTrigger() instanceof PostHit postHit && source.getEntity() != null) {
-				postHit.triggerEffect((LivingEntity) source.getEntity(), livingEntity);
-			}
+		if (source.getEntity() != null && source.getEntity() instanceof LivingEntity livingEntity) {
+			EffectComponent effects = LiquamentumEntityComponents.EFFECTS.get(livingEntity);
+			effects.getEffectInstances().forEach(effect -> {
+				if (effect.getEffect().getEffectTrigger() instanceof PostHit postHit && source.getEntity() != null) {
+					postHit.triggerEffect(livingEntity, (LivingEntity) (Object) this);
+				}
 
-		});
+			});
+		}
 	}
 }

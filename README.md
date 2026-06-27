@@ -1,3 +1,2 @@
-githubs lying for some reason, this update does work
-
-woah a read me imma edit this later
+unsure on what i want to work on
+so for the time being expect nothing specific

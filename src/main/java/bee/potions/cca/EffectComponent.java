@@ -3,6 +3,7 @@ package bee.potions.cca;
 import bee.potions.effect.Effect;
 import bee.potions.effect.EffectInstance;
 import bee.potions.packet.EffectS2CPacket;
+import bee.potions.registry.LiquamentumEntityComponents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,27 +50,26 @@ public class EffectComponent implements CardinalComponent, AutoSyncedComponent {
     }
 
     public void addEffect(EffectInstance effectInstance) {
-        for (int i = 0; i < effects.size(); i++) {
-            EffectInstance effectInstance1 = getEffectInstances().get(i);
-            Effect effect = getEffects().get(i);
-            Effect effect1 = effectInstance1.getEffect();
 
-            if (effect.getEffectTrigger().equals(effect1.getEffectTrigger()) &&effect.getShouldTrigger().equals(effect1.getShouldTrigger())) {
-                effects.remove(effect, effectInstance1);
-            }
+        if (effects.isEmpty()) effects.put(effectInstance.getEffect(), effectInstance);
+
+        for (EffectInstance effectInstance1 : effects.values()) {
+            if (effectInstance1.getEffect().equals(effectInstance.getEffect())) {
+                effectInstance1.setDuration(effectInstance.getDuration());
+            } else effects.put(effectInstance.getEffect(), effectInstance);
         }
 
-        effects.put(effectInstance.getEffect(), effectInstance);
+
 
         if (entity instanceof ServerPlayer player) {
-            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+            LiquamentumEntityComponents.EFFECTS.sync(player);
         }
     }
 
     public void removeEffect(EffectInstance effect) {
-        effects.remove(effect.getEffect());
+        effects.remove(effect.getEffect(), effect);
         if (entity instanceof ServerPlayer player) {
-            ServerPlayNetworking.send(player, new EffectS2CPacket(effects.values().stream().toList()));
+            LiquamentumEntityComponents.EFFECTS.sync(player);
         }
     }
 

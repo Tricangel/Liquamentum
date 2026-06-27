@@ -40,8 +40,6 @@ public record PotionVialComponent(Optional<Integer> colour, List<EffectInstance>
     }
 
 
-
-
     @Override
     public void addToTooltip(Item.TooltipContext context, Consumer<Component> consumer, TooltipFlag flag, DataComponentGetter components) {
         effects.forEach(effect -> {

@@ -6,8 +6,7 @@ import bee.potions.data.PotionRandomizationData;
 import bee.potions.effect.Effect;
 import bee.potions.effect.EffectInstance;
 import bee.potions.effect.EffectTrigger;
-import bee.potions.effect.tick.OnTick;
-import bee.potions.effect.shouldtrigger.ShouldTrigger;
+import bee.potions.effect.effectcondition.EffectCondition;
 import bee.potions.item.PotionVialComponent;
 import bee.potions.registry.LiquamentumBlockEntities;
 import bee.potions.registry.LiquamentumComponents;
@@ -17,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -29,11 +27,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.TagValueOutput;
@@ -41,8 +36,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jspecify.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,13 +95,13 @@ public class BrewingCauldronBlockEntity extends BlockEntity implements Clearable
 
 
     public ItemStack applyEffects(ItemStack stack, ServerLevel level, Player player) {
-        Holder<ShouldTrigger> shouldTrigger = null;
+        Holder<EffectCondition> shouldTrigger = null;
         Holder<EffectTrigger> effectTrigger = null;
             var registry = level.registryAccess().lookupOrThrow(LiquamentumRegistries.INGREDIENT_CATEGORIES);
 
             for (Holder.Reference<IngredientCategory> holder : registry.listElements().toList()) {
                 IngredientCategory ingredientCategory = holder.value();
-                List<Holder<ShouldTrigger>> shouldTriggers = ingredientCategory.getIngredientShouldTicks();
+                List<Holder<EffectCondition>> shouldTriggers = ingredientCategory.getIngredientShouldTicks();
                 List<Holder<EffectTrigger>> effectTriggers = ingredientCategory.getIngredientOnTicks();
                 PotionRandomizationData randomizationData = PotionRandomizationData.getPotionNameData(level.getServer());
 
