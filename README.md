@@ -1,2 +1,1 @@
-unsure on what i want to work on
-so for the time being expect nothing specific
+Feel free to take anything from this repo or continue it
